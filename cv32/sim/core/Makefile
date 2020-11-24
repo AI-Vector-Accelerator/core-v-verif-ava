@@ -108,9 +108,9 @@ XRUN_DIR          = xcelium.d
 
 # verilator configuration
 VERILATOR           = verilator
-VERI_FLAGS         +=
+VERI_FLAGS         += +vcd
 VERI_COMPILE_FLAGS += -Wno-BLKANDNBLK $(SV_CMP_FLAGS) # hope this doesn't hurt us in the long run
-VERI_TRACE          =
+VERI_TRACE          = 
 VERI_OBJ_DIR       ?= cobj_dir
 VERI_LOG_DIR       ?= cobj_dir/logs
 VERI_CFLAGS        += -O2
@@ -437,10 +437,8 @@ xrun-clean-all: xrun-clean
 # We first test if the user wants to to vcd dumping. This hacky part is required
 # because we need to conditionally compile the testbench (-DVCD_TRACE) and pass
 # the --trace flags to the verilator call
-ifeq ($(findstring +vcd,$(VERI_FLAGS)),+vcd)
 VERI_TRACE="--trace"
 VERI_CFLAGS+="-DVCD_TRACE"
-endif
 
 verilate: testbench_verilator
 

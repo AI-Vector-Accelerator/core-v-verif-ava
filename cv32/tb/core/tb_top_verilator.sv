@@ -19,7 +19,8 @@ module tb_top_verilator
      input logic  rst_ni,
      input logic  fetch_enable_i,
      output logic tests_passed_o,
-     output logic tests_failed_o);
+     output logic tests_failed_o
+);
 
     // cycle counter
     int unsigned            cycle_cnt_q;
@@ -92,7 +93,8 @@ module tb_top_verilator
           .PULP_CLUSTER      (0),
           .FPU               (0),
           .PULP_ZFINX        (0),
-          .DM_HALTADDRESS    (32'h1A110800)
+          .DM_HALTADDRESS    (32'h1A110800),
+          .GDP_NVPE          (1)
          )
     cv32e40p_tb_wrapper_i
         (.clk_i          ( clk_i          ),

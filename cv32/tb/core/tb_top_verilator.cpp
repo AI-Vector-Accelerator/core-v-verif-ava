@@ -74,6 +74,7 @@ int main(int argc, char **argv, char **env)
         t += 5;
     }
 #ifdef VCD_TRACE
+    std::cout << "Dump Trace";
     tfp->close();
 #endif
     delete top;

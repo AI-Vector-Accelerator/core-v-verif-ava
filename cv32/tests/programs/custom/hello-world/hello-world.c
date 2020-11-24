@@ -29,9 +29,9 @@
 int main(int argc, char *argv[])
 {
     unsigned int misa_rval, mxl;
-             int reserved, tentative, nonstd, user, super;
+             int reserved, tentative, nonstd, user, super, nvpe;
 
-    mxl = 0; reserved = 0; tentative = 0; nonstd = 0; user = 0; super = 0;
+    mxl = 0; reserved = 0; tentative = 0; nonstd = 0; user = 0; super = 0; nvpe = 0;
 
     /* inline assembly: read mvendorid and misa */
     asm volatile("ecall");
@@ -43,6 +43,9 @@ int main(int argc, char *argv[])
       printf("\tERROR: CSR MISA returned zero!\n\n");
       return EXIT_FAILURE;
     }
+
+    // Test vector instruction
+    __asm__ volatile("vle.v v1, (a1); vle.v v2, (a2); vadd.vv v3, v1, v2");
 
     /* Print a banner to stdout and interpret MISA CSR */
     printf("\nHELLO WORLD!!!\n");
@@ -73,7 +76,10 @@ int main(int argc, char *argv[])
       ++nonstd;
     }
     if ((misa_rval >> 22) & 0x00000001) ++reserved;
-    if ((misa_rval >> 21) & 0x00000001) ++tentative;
+    if ((misa_rval >> 21) & 0x00000001) {
+      printf("V");
+      ++nvpe;
+    }
     if ((misa_rval >> 20) & 0x00000001) ++user;
     if ((misa_rval >> 19) & 0x00000001) ++tentative;
     if ((misa_rval >> 18) & 0x00000001) ++super;
@@ -104,6 +110,9 @@ int main(int argc, char *argv[])
     }
     if (nonstd) {
       printf("\tThis machine supports non-standard instructions.\n");
+    }
+    if (nvpe) {
+      printf("\tThis machine supports Neural Vector Processing Engine instructions. (Subset of 0.8 'V' extensions)\n");
     }
     if (tentative) {
       printf("\tWARNING: %0d tentative instruction extensions are defined!\n", tentative);

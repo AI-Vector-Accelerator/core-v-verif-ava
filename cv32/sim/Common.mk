@@ -70,10 +70,10 @@ BANNER=*************************************************************************
 
 export SHELL = /bin/bash
 
-CV32E40P_REPO   ?= https://github.com/openhwgroup/cv32e40p
+CV32E40P_REPO   ?= git@git.soton.ac.uk:gdp42/cv32e40n.git
 CV32E40P_BRANCH ?= master
-CV32E40P_HASH   ?= d922d0f
-
+CV32E40P_HASH   ?= 
+                   
 RISCVDV_REPO    ?= https://github.com/google/riscv-dv
 RISCVDV_BRANCH  ?= master
 RISCVDV_HASH    ?= 10fd4fa8b7d0808732ecf656c213866cae37045a
@@ -90,11 +90,9 @@ else
   TMP = git clone -b $(CV32E40P_BRANCH) --single-branch $(CV32E40P_REPO) --recurse $(CV32E40P_PKG)
 endif
 
-ifeq ($(CV32E40P_HASH), head)
-  CLONE_CV32E40P_CMD = $(TMP)
-else
-  CLONE_CV32E40P_CMD = $(TMP); cd $(CV32E40P_PKG); git checkout $(CV32E40P_HASH)
-endif
+
+CLONE_CV32E40P_CMD = $(TMP)
+
 # RTL repo vars end
 
 # Generate command to clone RISCV-DV (Google's random instruction generator)
@@ -158,7 +156,7 @@ COREV_MARCH         ?= corev
 PULP_SW_TOOLCHAIN   ?= /opt/pulp
 PULP_MARCH          ?= unknown
 
-CV_SW_TOOLCHAIN  ?= /opt/riscv
+CV_SW_TOOLCHAIN  ?= /opt/riscv-rvv
 CV_SW_MARCH      ?= unknown
 RISCV            ?= $(CV_SW_TOOLCHAIN)
 RISCV_PREFIX     ?= riscv32-$(CV_SW_MARCH)-elf-
@@ -182,15 +180,15 @@ RISCV_PREFIX     = riscv32-$(PULP_MARCH)-elf-
 RISCV_EXE_PREFIX = $(RISCV)/bin/$(RISCV_PREFIX)
 endif
 
-CFLAGS ?= -Os -g -static -mabi=ilp32 -march=rv32imc -Wall -pedantic
+CFLAGS ?= -Os -g -static -mabi=ilp32 -march=rv32imcv -Wall -pedantic
 
 # FIXME:strichmo:Repeating this code until we fully deprecate CUSTOM_PROG, hopefully next PR
 ifeq ($(firstword $(subst _, ,$(CUSTOM_PROG))),pulp)
-  CFLAGS = -Os -g -D__riscv__=1 -D__LITTLE_ENDIAN__=1 -march=rv32imcxpulpv2 -Wa,-march=rv32imcxpulpv2 -fdata-sections -ffunction-sections -fdiagnostics-color=always
+  CFLAGS = -Os -g -D__riscv__=1 -D__LITTLE_ENDIAN__=1 -march=rv32imcv -Wa,-march=rv32imcv -fdata-sections -ffunction-sections -fdiagnostics-color=always
 endif
 
 ifeq ($(firstword $(subst _, ,$(TEST))),pulp)
-  CFLAGS = -Os -g -D__riscv__=1 -D__LITTLE_ENDIAN__=1 -march=rv32imcxpulpv2 -Wa,-march=rv32imcxpulpv2 -fdata-sections -ffunction-sections -fdiagnostics-color=always
+  CFLAGS = -Os -g -D__riscv__=1 -D__LITTLE_ENDIAN__=1 -march=rv32imcxv -Wa,-march=rv32imcv -fdata-sections -ffunction-sections -fdiagnostics-color=always
 endif
 
 ASM       ?= ../../tests/asm
