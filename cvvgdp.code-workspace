@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "core-v-cores/cv32e40p"
+		},
+		{
+			"path": "core-v-cores/open-ai-gdp/rtl"
+		},
+		{
+			"path": "cv32"
+		}
+	],
+	"settings": {}
+}

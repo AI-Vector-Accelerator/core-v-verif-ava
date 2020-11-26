@@ -44,11 +44,13 @@ int main(int argc, char *argv[])
       return EXIT_FAILURE;
     }
 
-    // Test vector instruction
-    __asm__ volatile("vle.v v1, (a1); vle.v v2, (a2); vadd.vv v3, v1, v2");
+    //"vle.v v1, (a1); vle.v v2, (a2);
 
     /* Print a banner to stdout and interpret MISA CSR */
     printf("\nHELLO WORLD!!!\n");
+    // Test vector instruction
+    __asm__ volatile("addi x28, x0, 1; addi x29, x0, 1; vsetvli x28, x29, e8,m4");
+
     printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
     printf("CV32E40P is a RISC-V ISA compliant core with the following attributes:\n");
     // printf("\tmvendorid = 0x%0x\n", mvendorid_rval);

@@ -179,8 +179,15 @@ export DESIGN_RTL_DIR = $(CV32E40P_PKG)/rtl
 # Default "custom test-program"
 CUSTOM_PROG  ?= requested_csr_por
 
+NVPE_PKG             := $(PROJ_ROOT_DIR)/core-v-cores/open-ai-gdp
+NVPE_RTLSRC_INCDIR   := $(NVPE_PKG)/rtl/accelerator_pkg.sv
+NVPE_RTLSRC          := $(wildcard $(NVPE_PKG)/rtl/*.sv))
+NVPE_MANIFEST        := $(NVPE_PKG)/rtl/accelerator_manifest.flist
+export NVPE_RTL_DIR = $(NVPE_PKG)/rtl
+
 # Shorthand rules for convience
 cv32e40p_pkg: $(CV32E40P_PKG)
+nvpe_pkg: $(NVPE_PKG)
 
 tbsrc_pkg: $(TBSRC_PKG)
 
@@ -445,13 +452,13 @@ verilate: testbench_verilator
 sanity-veri-run:
 	make custom CUSTOM_PROG=hello-world
 
-testbench_verilator: $(CV32E40P_PKG) $(TBSRC_VERI) $(TBSRC_PKG)
+testbench_verilator: $(CV32E40P_PKG) $(NVPE_PKG) $(TBSRC_VERI) $(TBSRC_PKG)
 	$(VERILATOR) --cc --sv --exe \
 		$(VERI_TRACE) \
 		--Wno-lint --Wno-UNOPTFLAT \
 		--Wno-MODDUP --top-module \
 		tb_top_verilator $(TBSRC_VERI) \
-		-f $(CV32E40P_MANIFEST) \
+		-f $(CV32E40P_MANIFEST) -f $(NVPE_MANIFEST)\
 		$(CV32E40P_PKG)/bhv/cv32e40p_core_log.sv \
 		$(TBSRC_CORE)/tb_top_verilator.cpp --Mdir $(VERI_OBJ_DIR) \
 		-CFLAGS "-std=gnu++11 $(VERI_CFLAGS)" \
@@ -663,6 +670,14 @@ $(CV32E40P_PKG):
 	$(CLONE_CV32E40P_CMD)
 	$(CLONE_FPNEW_CMD)
 
+###############################################################################
+# NVPE RTL dependencies
+
+clone_nvpe_rtl:
+	$(CLONE_NVPE_CMD)
+
+$(NVPE_PKG):
+	$(CLONE_NVPE_CMD)
 
 ###############################################################################
 # general targets

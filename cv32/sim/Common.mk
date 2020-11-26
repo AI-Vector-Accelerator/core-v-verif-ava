@@ -74,6 +74,9 @@ CV32E40P_REPO   ?= git@git.soton.ac.uk:gdp42/cv32e40n.git
 CV32E40P_BRANCH ?= master
 CV32E40P_HASH   ?= 
                    
+NVPE_REPO       ?= git@git.soton.ac.uk:gdp42/open-ai-gdp.git
+NVPE_BRANCH     ?= master
+
 RISCVDV_REPO    ?= https://github.com/google/riscv-dv
 RISCVDV_BRANCH  ?= master
 RISCVDV_HASH    ?= 10fd4fa8b7d0808732ecf656c213866cae37045a
@@ -90,8 +93,14 @@ else
   TMP = git clone -b $(CV32E40P_BRANCH) --single-branch $(CV32E40P_REPO) --recurse $(CV32E40P_PKG)
 endif
 
+ifeq ($(NVPE_BRANCH), master)
+  TMP_NVPE = git clone $(NVPE_REPO) --recurse $(NVPE_PKG)
+else
+  TMP_NVPE = git clone -b $(NVPE_BRANCH) --single-branch $(NVPE_REPO) --recurse $(NVPE_PKG)
+endif
 
 CLONE_CV32E40P_CMD = $(TMP)
+CLONE_NVPE_CMD = $(TMP_NVPE)
 
 # RTL repo vars end
 
