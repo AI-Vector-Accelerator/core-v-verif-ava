@@ -28,14 +28,14 @@
 
 void vect_loadVector32(int N, int32_t* ptr) {
     __asm__ (
-      "vsetvli t6, a0, e32;"
+      "vsetvli t2, a0, e32;"
       "vle.v v4, (a1);"
-      "add a1, a1, t6;"		           		
+      "add a1, a1, t2;"		           		
       "vle.v v5, (a1);"		           		
-      "add a1, a1, t6;"
+      "add a1, a1, t2;"
       "vle.v v6, (a1);"	           		
-      "add a1, a1, t6;"
-      "vle.v v7, (a1);"
+      "add a1, a1, t2;"
+      "vle.v v7, (a1);"          		
     );
 }
 
@@ -74,9 +74,9 @@ int main(int argc, char *argv[])
 
     printf("%x %x\n", a, b);
 
-    vect_add(4, a);
+    //vect_add(4, a);
 
-    //vect_loadVector32(4, a);
+    vect_loadVector32(4, a);
 
     printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
     printf("CV32E40P is a RISC-V ISA compliant core with the following attributes:\n");
