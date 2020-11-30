@@ -159,11 +159,11 @@ module cv32e40p_tb_wrapper
          .apu_flags_i            ( apu_flags_r           ), // APU_NUSFLAGS_CPU
 
          // Interrupts verified in UVM environment
-         .irq_i                  ( {32{1'b0}}            ),
+         .irq_i                  ( {32'b0}            ),
          .irq_ack_o              ( irq_ack               ),
          .irq_id_o               ( irq_id_out            ),
 
-         .debug_req_i            ( debug_req             ),
+         .debug_req_i            ( debug_req ),
 
          .fetch_enable_i         ( fetch_enable_i        ),
          .core_sleep_o           ( core_sleep_o          )
@@ -186,14 +186,14 @@ module cv32e40p_tb_wrapper
          .instr_rvalid_o ( instr_rvalid                              ),
          .instr_gnt_o    ( instr_gnt                                 ),
 
-         .data_req_i     ( data_req_xbr_m1                           ),
-         .data_addr_i    ( data_addr_xbr_m1                          ),
-         .data_we_i      ( data_we_xbr_m1                            ),
-         .data_be_i      ( data_be_xbr_m1                            ),
-         .data_wdata_i   ( data_wdata_xbr_m1                         ),
-         .data_rdata_o   ( data_rdata_xbr_m1                         ),
-         .data_rvalid_o  ( data_rvalid_xbr_m1                        ),
-         .data_gnt_o     ( data_gnt_xbr_m1                           ),
+         .data_req_i     ( data_req_xbr_s1                           ),
+         .data_addr_i    ( data_addr_xbr_s1                          ),
+         .data_we_i      ( data_we_xbr_s1                            ),
+         .data_be_i      ( data_be_xbr_s1                            ),
+         .data_wdata_i   ( data_wdata_xbr_s1                         ),
+         .data_rdata_o   ( data_rdata_xbr_s1                         ),
+         .data_rvalid_o  ( data_rvalid_xbr_s1                        ),
+         .data_gnt_o     ( data_gnt_xbr_s1                           ),
 
          // TODO: Interrupts need to be re-done
          .irq_id_i       ( irq_id_out                                ),
@@ -209,11 +209,10 @@ module cv32e40p_tb_wrapper
          .exit_valid_o   ( exit_valid_o                              ),
          .exit_value_o   ( exit_value_o                              ));
 
-    /*cv32e40n_data_xbar xbar_mux
+    cv32e40n_data_xbar xbar_mux
        (.clk_i                  ( clk_i                     ),
         .rst_ni                 ( rst_ni                    ),
-        .xbar_master_sel        ( mem_master_sel_o          ),
-       
+
         .data_req_xbr_s1_o      ( data_req_xbr_s1           ),
         .data_gnt_xbr_s1_i      ( data_gnt_xbr_s1           ),
         .data_rvalid_xbr_s1_i   ( data_rvalid_xbr_s1        ),
@@ -239,34 +238,7 @@ module cv32e40p_tb_wrapper
         .data_we_xbr_m2_i       ( data_we_xbr_m2            ),
         .data_be_xbr_m2_i       ( data_be_xbr_m2            ),
         .data_rdata_xbr_m2_o    ( data_rdata_xbr_m2         ),
-        .data_wdata_xbr_m2_i    ( data_wdata_xbr_m2         ));*/
-
-    // APU Transaction Handler
-    /*cv32e40n_apu_dummy apu_dummy
-        (.clk_i          ( clk_i            ),
-         .rst_ni         ( rst_ni           ),
-    
-         .apu_operands_i ( apu_operands     ),
-         .apu_op_i       ( apu_op           ),
-         .apu_flags_i    ( apu_flags        ),
-         .apu_req_i      ( apu_req          ),
-
-         .apu_rvalid_o   ( apu_rvalid       ),
-         .apu_result_o   ( apu_result       ),
-         .apu_flags_o    ( apu_flags_r      ),
-         .apu_gnt_o      ( apu_gnt          ),
-         .mem_master_sel ( mem_master_sel_o ),
-
-         .data_req_o     ( data_req_xbr_m2    ),
-         .data_gnt_i     ( data_gnt_xbr_m2    ),
-         .data_rvalid_i  ( data_rvalid_xbr_m2 ),
-         .data_we_o      ( data_we_xbr_m2     ),
-         .data_be_o      ( data_be_xbr_m2     ),
-         .data_addr_o    ( data_addr_xbr_m2   ),
-         .data_wdata_o   ( data_wdata_xbr_m2  ),
-         .data_rdata_i   ( data_rdata_xbr_m2  ));*/
-
-    assign mem_master_sel_o = 1'b0;
+        .data_wdata_xbr_m2_i    ( data_wdata_xbr_m2         ));
 
     accelerator_top a_top
        (.apu_result(apu_result),
@@ -278,7 +250,15 @@ module cv32e40p_tb_wrapper
         .apu_req(apu_req),
         .apu_operands_i(apu_operands),
         .apu_op(apu_op),
-        .apu_flags_i(apu_flags));
+        .apu_flags_i(apu_flags),
+        .data_req_o(data_req_xbr_m2),
+        .data_gnt_i(data_gnt_xbr_m2),
+        .data_rvalid_i(data_rvalid_xbr_m2),
+        .data_we_o(data_we_xbr_m2),
+        .data_be_o(data_be_xbr_m2),
+        .data_addr_o(data_addr_xbr_m2),
+        .data_wdata_o(data_wdata_xbr_m2),
+        .data_rdata_i(data_rdata_xbr_m2));
      
 
 endmodule // cv32e40p_tb_wrapper

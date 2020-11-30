@@ -26,6 +26,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void vect_loadVector32(int N, int32_t* ptr) {
+    __asm__ (
+      "vsetvli t1, a0, e32;"
+      "vle.v v4, (a1);"
+      "add a1, a1, t1;"		           		
+      "vle.v v5, (a1);"		           		
+      "add a1, a1, t1;"
+      "vle.v v6, (a1);"	           		
+      "add a1, a1, t1;"
+      "vle.v v7, (a1);"
+    );
+}
+
 int main(int argc, char *argv[])
 {
     unsigned int misa_rval, mxl;
@@ -44,12 +57,17 @@ int main(int argc, char *argv[])
       return EXIT_FAILURE;
     }
 
-    //"vle.v v1, (a1); vle.v v2, (a2);
-
     /* Print a banner to stdout and interpret MISA CSR */
     printf("\nHELLO WORLD!!!\n");
     // Test vector instruction
-    __asm__ volatile("addi x28, x0, 1; addi x29, x0, 1; vsetvli x28, x29, e8,m4");
+
+    int32_t c = 128;
+    int32_t a[5] = {123, 32, 16, 23};
+    int32_t b[4] = {78, 32, 12, 1};
+
+    printf("%x %x\n", a, b);
+
+    vect_loadVector32(4, a);
 
     printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
     printf("CV32E40P is a RISC-V ISA compliant core with the following attributes:\n");

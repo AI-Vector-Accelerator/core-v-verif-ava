@@ -463,7 +463,7 @@ testbench_verilator: $(CV32E40P_PKG) $(NVPE_PKG) $(TBSRC_VERI) $(TBSRC_PKG)
 		$(TBSRC_CORE)/tb_top_verilator.cpp --Mdir $(VERI_OBJ_DIR) \
 		-CFLAGS "-std=gnu++11 $(VERI_CFLAGS)" \
 		$(VERI_COMPILE_FLAGS)
-	$(MAKE) -C $(VERI_OBJ_DIR) -f Vtb_top_verilator.mk
+	$(MAKE) -C $(VERI_OBJ_DIR) -f Vtb_top_verilator.mk -j6
 	cp $(VERI_OBJ_DIR)/Vtb_top_verilator testbench_verilator
 
 custom: verilate $(VERI_CUSTOM)/$(CUSTOM_PROG)/$(CUSTOM_PROG).hex
