@@ -1,19 +1,19 @@
 ###############################################################################
 #
 # Copyright 2020 OpenHW Group
-# 
+#
 # Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     https://solderpad.org/licenses/
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# 
+#
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.0
 #
 ###############################################################################
@@ -22,7 +22,7 @@
 # Makefiles in the "core" and "uvmt_cv32" dirs.
 #
 ###############################################################################
-# 
+#
 # Copyright 2019 Claire Wolf
 # Copyright 2019 Robert Balas
 #
@@ -66,14 +66,14 @@ BANNER=*************************************************************************
 #      *_HASH:   Value of the specific hash you wish to clone;
 #                Set to 'head' to pull the head of the branch you want.
 #      *_TAG:    Not yet supported (TODO).
-#                
+#
 
 export SHELL = /bin/bash
 
 CV32E40P_REPO   ?= git@git.soton.ac.uk:gdp42/cv32e40n.git
 CV32E40P_BRANCH ?= master
-CV32E40P_HASH   ?= 
-                   
+CV32E40P_HASH   ?=
+
 NVPE_REPO       ?= git@git.soton.ac.uk:gdp42/open-ai-gdp.git
 NVPE_BRANCH     ?= master
 
@@ -149,10 +149,10 @@ OVP_MODEL_DPI   = $(DV_OVPM_MODEL)/bin/Linux64/riscv_CV32E40P.dpi.so
 #     1. GNU:   https://github.com/riscv/riscv-gnu-toolchain
 #               Assumed to be installed at /opt/gnu.
 #
-#     2. COREV: https://www.embecosm.com/resources/tool-chain-downloads/#corev 
+#     2. COREV: https://www.embecosm.com/resources/tool-chain-downloads/#corev
 #               Assumed to be installed at /opt/corev.
 #
-#     3. PULP:  https://github.com/pulp-platform/pulp-riscv-gnu-toolchain 
+#     3. PULP:  https://github.com/pulp-platform/pulp-riscv-gnu-toolchain
 #               Assumed to be installed at /opt/pulp.
 #
 # If you do not select one of the above options, compilation will be attempted
@@ -210,7 +210,7 @@ ASM_DIR   ?= $(ASM)
 # Note that the DSIM targets allow for writing the log-files to arbitrary
 # locations, so all of these paths are absolute, except those used by Verilator.
 # TODO: clean this mess up!
-CORE_TEST_DIR                        = $(PROJ_ROOT_DIR)/cv32/tests/core
+CORE_TEST_DIR                        = $(PROJ_ROOT_DIR)/cv32/tests/programs
 BSP                                  = $(PROJ_ROOT_DIR)/cv32/bsp
 FIRMWARE                             = $(CORE_TEST_DIR)/firmware
 VERI_FIRMWARE                        = ../../tests/core/firmware
@@ -257,7 +257,7 @@ ifneq "$(SUPPORTS_MAKE_ARGS)" ""
   UNIT_TEST := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
   $(eval $(UNIT_TEST):;@:)
   UNIT_TEST_CMD := 1
-else 
+else
  UNIT_TEST_CMD := 0
 endif
 
@@ -347,7 +347,7 @@ clean-bsp:
 .PRECIOUS : %debug_test_reset.elf
 .PRECIOUS : %debug_test_trigger.elf
 .PRECIOUS : %debug_test_known_miscompares.elf
-	
+
 # Prepare file list for .elf
 # Get the source file names from the BSP directory
 PREREQ_BSP_FILES  = $(filter %.c %.S %.ld,$(wildcard $(BSP)/*))
@@ -532,9 +532,9 @@ $(RISCV_COMPLIANCE_TESTS)/%.o: $(RISCV_COMPLIANCE_TESTS)/%.S $(RISCV_COMPLIANCE_
 		-DTEST_FUNC_RET=$(notdir $(subst -,_,$(basename $<)))_ret $<
 
 # in dsim
-.PHONY: dsim-unit-test 
-dsim-unit-test:  firmware-unit-test-clean 
-dsim-unit-test:  $(FIRMWARE)/firmware_unit_test.hex 
+.PHONY: dsim-unit-test
+dsim-unit-test:  firmware-unit-test-clean
+dsim-unit-test:  $(FIRMWARE)/firmware_unit_test.hex
 dsim-unit-test: ALL_VSIM_FLAGS += "+firmware=$(FIRMWARE)/firmware_unit_test.hex +elf_file=$(FIRMWARE)/firmware_unit_test.elf"
 dsim-unit-test: dsim-firmware-unit-test
 
@@ -550,7 +550,7 @@ firmware-vcs-run-gui: vcsify $(FIRMWARE)/firmware.hex
 
 .PHONY: vcs-unit-test
 vcs-unit-test:  firmware-unit-test-clean
-vcs-unit-test:  $(FIRMWARE)/firmware_unit_test.hex 
+vcs-unit-test:  $(FIRMWARE)/firmware_unit_test.hex
 vcs-unit-test:  vcsify $(FIRMWARE)/firmware_unit_test.hex
 vcs-unit-test:  vcs-run
 

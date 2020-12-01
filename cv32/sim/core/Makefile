@@ -1,26 +1,26 @@
 ###############################################################################
 #
 # Copyright 2020 OpenHW Group
-# 
+#
 # Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-# 
+#
 #     https://solderpad.org/licenses/
-# 
+#
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-# 
+#
 ###############################################################################
 #
 # Makefile for the CV32E40P "core" testbench.  Substantially modified from the
 # Makefile original for the RI5CY testbench.
 #
 ###############################################################################
-# 
+#
 # Copyright 2019 Claire Wolf
 # Copyright 2019 Robert Balas
 #
@@ -50,7 +50,7 @@ DATE           = $(shell date +%F)
 WAVES         = 0
 
 # Compile compile flags for all simulators
-SV_CMP_FLAGS = 
+SV_CMP_FLAGS =
 
 # vsim configuration
 VVERSION  = "10.7b"
@@ -71,7 +71,7 @@ VSIM_FLAGS       ?=  # user defined
 ALL_VSIM_FLAGS    = $(VSIM_FLAGS)
 VSIM_DEBUG_FLAGS  = -debugdb
 VSIM_GUI_FLAGS    = -gui -debugdb
-VSIM_SCRIPT_DIR	  = ../questa
+VSIM_SCRIPT_DIR	  = ../tools/vsim
 VSIM_SCRIPT       = $(VSIM_SCRIPT_DIR)/vsim.tcl
 
 # vcs configuration (hopelessly out of date)
@@ -110,7 +110,7 @@ XRUN_DIR          = xcelium.d
 VERILATOR           = verilator
 VERI_FLAGS         += +vcd
 VERI_COMPILE_FLAGS += -Wno-BLKANDNBLK $(SV_CMP_FLAGS) # hope this doesn't hurt us in the long run
-VERI_TRACE          = 
+VERI_TRACE          =
 VERI_OBJ_DIR       ?= cobj_dir
 VERI_LOG_DIR       ?= cobj_dir/logs
 VERI_CFLAGS        += -O2
@@ -122,7 +122,7 @@ AWORK     = work
 
 ALOG          = vlog
 ALOG_DEBUG    = -dbg
-ALOG_FLAGS    = 
+ALOG_FLAGS    =
 ALOG_UVM      = -uvmver 1.2
 
 ASIM              = vsim
@@ -144,7 +144,7 @@ TBSRC       := $(TBSRC_CORE)/tb_top.sv \
                $(TBSRC_CORE)/tb_riscv/riscv_random_stall.sv \
                $(TBSRC_CORE)/tb_riscv/riscv_random_interrupt_generator.sv \
                $(TBSRC_CORE)/tb_riscv/riscv_rvalid_stall.sv \
-               $(TBSRC_CORE)/tb_riscv/riscv_gnt_stall.sv 
+               $(TBSRC_CORE)/tb_riscv/riscv_gnt_stall.sv
 
 #/tb_riscv/riscv_rvalid_stall.sv
 
@@ -237,12 +237,12 @@ include $(PROJ_ROOT_DIR)/cv32/sim/Common.mk
 all: clean_all sanity-veri-run dsim-sanity
 
 ###############################################################################
-# Metrics DSIM 
+# Metrics DSIM
 .PHONY: dsim-comp dsim-comp-rtl-only
 
 MKDIR_P = mkdir -p
 
-mk_results: 
+mk_results:
 	$(MKDIR_P) $(DSIM_RESULTS)
 	$(MKDIR_P) $(DSIM_WORK)
 
@@ -311,16 +311,17 @@ dsim-clean: tc-clean
 	touch .lib-rtl
 
 
-.build-rtl: .lib-rtl $(CV32E40P_PKG) $(TBSRC_PKG) $(TBSRC)
+.build-rtl: .lib-rtl $(CV32E40P_PKG) $(TBSRC_PKG) $(TBSRC) $(NVPE_PKG)
 	$(VLOG) \
 		-work $(VWORK) \
 		$(VLOG_FLAGS) \
 		-f $(CV32E40P_MANIFEST) \
-		$(TBSRC_PKG) $(TBSRC) 
-		
+		-f $(NVPE_MANIFEST) \
+		$(TBSRC_PKG) $(TBSRC)
+
 
 vsim-all:  .opt-rtl
-	
+
 
 .opt-rtl: .build-rtl
 	$(VOPT) -work $(VWORK) $(VOPT_FLAGS) $(RTLSRC_VLOG_TB_TOP) -o $(RTLSRC_VOPT_TB_TOP)
@@ -328,11 +329,16 @@ vsim-all:  .opt-rtl
 
 # run tb and exit
 .PHONY: vsim-run
-vsim-run: ALL_VSIM_FLAGS += -c  
+vsim-run: ALL_VSIM_FLAGS += -c
 vsim-run: vsim-all
-	$(VSIM) -work $(VWORK) $(DPILIB_VSIM_OPT) $(ALL_VSIM_FLAGS)\
+	$(VSIM) -work $(VWORK) $(DPILIB_VSIM_OPT) $(ALL_VSIM_FLAGS) \
 	$(RTLSRC_VOPT_TB_TOP) -do 'source $(VSIM_SCRIPT); exit -f'
 
+
+.PHONY: vsim-custom
+vsim-custom: vsim-all $(CUSTOM)/$(CUSTOM_PROG)/$(CUSTOM_PROG).hex
+vsim-custom: ALL_VSIM_FLAGS += +firmware=$(CUSTOM)/$(CUSTOM_PROG)/$(CUSTOM_PROG).hex
+vsim-custom: vsim-run
 
 
 # run tb and drop into interactive shell
@@ -340,19 +346,19 @@ vsim-run: vsim-all
 vsim-run-sh: ALL_VSIM_FLAGS += -c
 vsim-run-sh: vsim-all
 	$(VSIM) -work $(VWORK) $(DPILIB_VSIM_OPT) $(ALL_VSIM_FLAGS) \
-	$(RTLSRC_VOPT_TB_TOP) -do $(VSIM_SCRIPT)
+	$(RTLSRC_VOPT_TB_TOP) -do 'source $(VSIM_SCRIPT)'
 
 # run tb with simulator gui
 .PHONY: vsim-run-gui
-vsim-run-gui: ALL_VSIM_FLAGS += $(VSIM_GUI_FLAGS) 
+vsim-run-gui: ALL_VSIM_FLAGS += $(VSIM_GUI_FLAGS)
 vsim-run-gui: vsim-all
 	$(VSIM) -work $(VWORK) $(DPILIB_VSIM_OPT) $(ALL_VSIM_FLAGS) \
-	$(RTLSRC_VOPT_TB_TOP) -do $(VSIM_SCRIPT)
+	$(RTLSRC_VOPT_TB_TOP) -do 'source $(VSIM_SCRIPT)'
 
 
 .PHONY: questa-hello-world
-questa-hello-world: vsim-all $(CUSTOM)/hello-world.hex
-questa-hello-world: ALL_VSIM_FLAGS += +firmware=$(CUSTOM)/hello-world.hex
+questa-hello-world: vsim-all $(VERI_CUSTOM)/hello-world/hello-world.hex
+questa-hello-world: ALL_VSIM_FLAGS += +firmware=$(VERI_CUSTOM)/hello-world/hello-world.hex
 questa-hello-world: vsim-run
 
 .PHONY: questa-cv32_riscv_tests
@@ -385,15 +391,15 @@ questa-firmware-gui: vsim-all $(FIRMWARE)/firmware.hex
 questa-firmware-gui: ALL_VSIM_FLAGS += +firmware=$(FIRMWARE)/firmware.hex
 questa-firmware-gui: vsim-run-gui
 
-.PHONY: questa-unit-test 
-questa-unit-test:  firmware-unit-test-clean 
-questa-unit-test:  $(FIRMWARE)/firmware_unit_test.hex 
+.PHONY: questa-unit-test
+questa-unit-test:  firmware-unit-test-clean
+questa-unit-test:  $(FIRMWARE)/firmware_unit_test.hex
 questa-unit-test: ALL_VSIM_FLAGS += "+firmware=$(FIRMWARE)/firmware_unit_test.hex"
 questa-unit-test: vsim-run
 
-.PHONY: questa-unit-test-gui 
-questa-unit-test-gui:  firmware-unit-test-clean 
-questa-unit-test-gui:  $(FIRMWARE)/firmware_unit_test.hex 
+.PHONY: questa-unit-test-gui
+questa-unit-test-gui:  firmware-unit-test-clean
+questa-unit-test-gui:  $(FIRMWARE)/firmware_unit_test.hex
 questa-unit-test-gui: ALL_VSIM_FLAGS += "+firmware=$(FIRMWARE)/firmware_unit_test.hex"
 questa-unit-test-gui: vsim-run-gui
 
@@ -541,15 +547,15 @@ vcs-firmware-gui: vcsify $(FIRMWARE)/firmware.hex
 vcs-firmware-gui: ALL_VCS_FLAGS += +firmware=$(FIRMWARE)/firmware.hex
 vcs-firmware-gui: vcs-run-gui
 
-.PHONY: vcs-unit-test 
-vcs-unit-test:  firmware-unit-test-clean 
-vcs-unit-test:  $(FIRMWARE)/firmware_unit_test.hex 
+.PHONY: vcs-unit-test
+vcs-unit-test:  firmware-unit-test-clean
+vcs-unit-test:  $(FIRMWARE)/firmware_unit_test.hex
 vcs-unit-test: ALL_VCS_FLAGS += "+firmware=$(FIRMWARE)/firmware_unit_test.hex"
 vcs-unit-test: vcs-run
 
-.PHONY: vcs-unit-test-gui 
-vcs-unit-test-gui:  firmware-unit-test-clean 
-vcs-unit-test-gui:  $(FIRMWARE)/firmware_unit_test.hex 
+.PHONY: vcs-unit-test-gui
+vcs-unit-test-gui:  firmware-unit-test-clean
+vcs-unit-test-gui:  $(FIRMWARE)/firmware_unit_test.hex
 vcs-unit-test-gui: ALL_VCS_FLAGS += "+firmware=$(FIRMWARE)/firmware_unit_test.hex"
 vcs-unit-test-gui: vcs-run-gui
 
@@ -565,20 +571,20 @@ vcs-clean:
 	touch .rvrlib-rtl
 
 
-.rvr-build-rtl: .rvrlib-rtl $(CV32E40P_PKG) $(TBSRC_PKG) $(TBSRC) 
+.rvr-build-rtl: .rvrlib-rtl $(CV32E40P_PKG) $(TBSRC_PKG) $(TBSRC)
 	$(ALOG) \
 		-work $(AWORK) \
 		$(ALOG_FLAGS) \
 		$(ALOG_UVM) \
 		-f $(CV32E40P_MANIFEST) \
-		$(TBSRC_PKG) $(TBSRC) 
-		
+		$(TBSRC_PKG) $(TBSRC)
+
 
 asim-all:  .rvr-build-rtl
-	
+
 # run tb and exit
 .PHONY: asim-run
-asim-run: ALL_ASIM_FLAGS += -c  
+asim-run: ALL_ASIM_FLAGS += -c
 asim-run: asim-all
 	$(ASIM) -lib $(AWORK) $(ALL_ASIM_FLAGS)\
 	$(RTLSRC_VLOG_TB_TOP) -do "run -all; endsim; quit -force"
@@ -594,7 +600,7 @@ asim-run-sh: asim-all
 
 # run tb with simulator gui
 .PHONY: asim-run-gui
-asim-run-gui: ALL_ASIM_FLAGS += $(ASIM_GUI_FLAGS) 
+asim-run-gui: ALL_ASIM_FLAGS += $(ASIM_GUI_FLAGS)
 asim-run-gui: asim-all
 	$(ASIM) -lib $(AWORK) $(ALL_ASIM_FLAGS) \
 	$(RTLSRC_VLOG_TB_TOP) -do "run -all"
@@ -640,15 +646,15 @@ riviera-firmware-gui: asim-all $(FIRMWARE)/firmware.hex
 riviera-firmware-gui: ALL_ASIM_FLAGS += +firmware=$(FIRMWARE)/firmware.hex
 riviera-firmware-gui: asim-run-gui
 
-.PHONY: riviera-unit-test 
-riviera-unit-test:  firmware-unit-test-clean 
-riviera-unit-test:  $(FIRMWARE)/firmware_unit_test.hex 
+.PHONY: riviera-unit-test
+riviera-unit-test:  firmware-unit-test-clean
+riviera-unit-test:  $(FIRMWARE)/firmware_unit_test.hex
 riviera-unit-test: ALL_ASIM_FLAGS += "+firmware=$(FIRMWARE)/firmware_unit_test.hex"
 riviera-unit-test: asim-run
 
-.PHONY: riviera-unit-test-gui 
-riviera-unit-test-gui:  firmware-unit-test-clean 
-riviera-unit-test-gui:  $(FIRMWARE)/firmware_unit_test.hex 
+.PHONY: riviera-unit-test-gui
+riviera-unit-test-gui:  firmware-unit-test-clean
+riviera-unit-test-gui:  $(FIRMWARE)/firmware_unit_test.hex
 riviera-unit-test-gui: ALL_ASIM_FLAGS += "+firmware=$(FIRMWARE)/firmware_unit_test.hex"
 riviera-unit-test-gui: asim-run-gui
 
@@ -682,7 +688,7 @@ $(NVPE_PKG):
 ###############################################################################
 # general targets
 .PHONY: tc-clean
-	
+
 # clean up toolchain generated files
 clean_test_programs:
 	find $(PROJ_ROOT_DIR)/cv32/tests/programs -name *.o       -exec rm {} \;
