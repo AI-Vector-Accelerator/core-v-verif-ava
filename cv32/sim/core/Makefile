@@ -340,20 +340,25 @@ vsim-custom: vsim-all $(CUSTOM)/$(CUSTOM_PROG)/$(CUSTOM_PROG).hex
 vsim-custom: ALL_VSIM_FLAGS += +firmware=$(CUSTOM)/$(CUSTOM_PROG)/$(CUSTOM_PROG).hex
 vsim-custom: vsim-run
 
+.PHONY: vsim-custom-gui
+vsim-custom-gui: vsim-all $(CUSTOM)/$(CUSTOM_PROG)/$(CUSTOM_PROG).hex
+vsim-custom-gui: ALL_VSIM_FLAGS += +firmware=$(CUSTOM)/$(CUSTOM_PROG)/$(CUSTOM_PROG).hex
+vsim-custom-gui: vsim-run-gui
+
 
 # run tb and drop into interactive shell
 .PHONY: vsim-run-sh
 vsim-run-sh: ALL_VSIM_FLAGS += -c
 vsim-run-sh: vsim-all
 	$(VSIM) -work $(VWORK) $(DPILIB_VSIM_OPT) $(ALL_VSIM_FLAGS) \
-	$(RTLSRC_VOPT_TB_TOP) -do 'source $(VSIM_SCRIPT)'
+	$(RTLSRC_VOPT_TB_TOP) -do 'source $(VSIM_SCRIPT);'
 
 # run tb with simulator gui
 .PHONY: vsim-run-gui
 vsim-run-gui: ALL_VSIM_FLAGS += $(VSIM_GUI_FLAGS)
 vsim-run-gui: vsim-all
 	$(VSIM) -work $(VWORK) $(DPILIB_VSIM_OPT) $(ALL_VSIM_FLAGS) \
-	$(RTLSRC_VOPT_TB_TOP) -do 'source $(VSIM_SCRIPT)'
+	$(RTLSRC_VOPT_TB_TOP) -do 'do wave.do; source $(VSIM_SCRIPT_DIR)/gui.tcl; source $(VSIM_SCRIPT)'
 
 
 .PHONY: questa-hello-world
