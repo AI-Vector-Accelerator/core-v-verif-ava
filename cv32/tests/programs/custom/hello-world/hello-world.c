@@ -28,17 +28,23 @@
 #include <stdint.h>
 
       //"nop; nop; nop;"
-      //"   
+      //"add a1, a1, t2;"
 void vect_loadVector32(int N, int32_t* ptr) {
     __asm__ (
-      "vsetvli t2, a0, e32;"
+      "vsetvli t2, a0, e32, m1;"
+      "add t3, a1, a0;"
+      "add t4, t3, a0;"
+      "add t5, t4, a0;"	 	 	 
       "vle.v v4, (a1);"        		
-      "add a1, a1, t2;"
-      "vle.v v5, (a1);"
-      "add a1, a1, t2;"	 
-      "vle.v v6, (a1);"
-      "add a1, a1, t2;"		
-      "vle.v v7, (a1);"	
+      "vle.v v5, (t3);"
+      "vle.v v6, (t4);"
+      "vle.v v7, (t5);"	
+      "add t3, t5, a0;"
+      "add t4, t3, a0;"
+      "add t5, t4, a0;"	 	 	 
+      "vle.v v1, (t3);"        		
+      "vle.v v2, (t4);"
+      "vle.v v3, (t5);"	
     );
 }
 
@@ -72,8 +78,7 @@ int main(int argc, char *argv[])
     // Test vector instruction
 
     int32_t c = 128;
-    int32_t a[7] = {123, 32, 16, 23, 78, 32, 12};
-
+    int32_t a[7] = {123, 32, 16, 23, 78, 32, 12,};
     printf("%x", a);
     
     vect_loadVector32(4, a);
