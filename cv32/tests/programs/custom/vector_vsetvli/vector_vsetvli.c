@@ -134,13 +134,9 @@ int main(int argc, char *argv[])
     uint8_t new_vl;
     uint8_t avl_values[5] = {1, 4, 7, 16, 56};
 
+    printf("Checking 8b\n");
     for (uint8_t i=0; i<5; i++)
     {
-        // printf("%d\n", avl_values[i]);
-        // printf("%d\n", i);
-
-
-        printf("Checking 8b\n");
         new_vl = vsetvli_e8_m1(avl_values[i]);
         if (!check_new_vl(avl_values[i], 4, new_vl))
             return EXIT_FAILURE;
@@ -151,7 +147,11 @@ int main(int argc, char *argv[])
         if (!check_new_vl(avl_values[i], 16, new_vl))
             return EXIT_FAILURE;
 
-        printf("Checking 16b\n");
+    }
+
+    printf("Checking 16b\n");
+    for (uint8_t i=0; i<5; i++)
+    {
         new_vl = vsetvli_e16_m1(avl_values[i]);
         if (!check_new_vl(avl_values[i], 2, new_vl))
             return EXIT_FAILURE;
@@ -161,8 +161,11 @@ int main(int argc, char *argv[])
         new_vl = vsetvli_e16_m4(avl_values[i]);
         if (!check_new_vl(avl_values[i], 8, new_vl))
             return EXIT_FAILURE;
+    }
 
-        printf("Checking 32b\n");
+    printf("Checking 32b\n");
+    for (uint8_t i=0; i<5; i++)
+    {
         new_vl = vsetvli_e32_m1(avl_values[i]);
         if (!check_new_vl(avl_values[i], 1, new_vl))
             return EXIT_FAILURE;
@@ -173,57 +176,8 @@ int main(int argc, char *argv[])
         if (!check_new_vl(avl_values[i], 4, new_vl))
             return EXIT_FAILURE;
 
-
-
-
-        // printf("Checking 8b\n");
-        // new_vl = vsetvli_e8_m1(7);
-        // if (!check_new_vl(7, 4, new_vl))
-        //     return EXIT_FAILURE;
-        // new_vl = vsetvli_e8_m2(7);
-        // if (!check_new_vl(7, 8, new_vl))
-        //     return EXIT_FAILURE;
-        // new_vl = vsetvli_e8_m4(7);
-        // if (!check_new_vl(7, 16, new_vl))
-        //     return EXIT_FAILURE;
-
-        // printf("Checking 16b\n");
-        // new_vl = vsetvli_e16_m1(7);
-        // if (!check_new_vl(7, 2, new_vl))
-        //     return EXIT_FAILURE;
-        // new_vl = vsetvli_e16_m2(7);
-        // if (!check_new_vl(7, 4, new_vl))
-        //     return EXIT_FAILURE;
-        // new_vl = vsetvli_e16_m4(7);
-        // if (!check_new_vl(7, 8, new_vl))
-        //     return EXIT_FAILURE;
-
-        // printf("Checking 32b\n");
-        // new_vl = vsetvli_e32_m1(7);
-        // if (!check_new_vl(7, 1, new_vl))
-        //     return EXIT_FAILURE;
-        // new_vl = vsetvli_e32_m2(7);
-        // if (!check_new_vl(7, 2, new_vl))
-        //     return EXIT_FAILURE;
-        // new_vl = vsetvli_e32_m4(7);
-        // if (!check_new_vl(7, 4, new_vl))
-        //     return EXIT_FAILURE;
     }
 
     return EXIT_SUCCESS;
 
-    // if (avl > max_vl)
-    // {
-    //     if (new_vl == max_vl)
-    //         return EXIT_SUCCESS;
-    //     else
-    //         return EXIT_FAILURE;
-    // }
-    // else
-    // {
-    //     if (new_vl == avl)
-    //         return EXIT_SUCCESS;
-    //     else
-    //         return EXIT_FAILURE;
-    // }
 }
