@@ -47,32 +47,14 @@ module cv32e40p_tb_wrapper
     logic [INSTR_RDATA_WIDTH-1:0] instr_rdata;
 
     // Data crossbar slave 1 (Memory)
-    logic                         data_req_xbr_s1;
-    logic                         data_gnt_xbr_s1;
-    logic                         data_rvalid_xbr_s1;
-    logic [31:0]                  data_addr_xbr_s1;
-    logic                         data_we_xbr_s1;
-    logic [3:0]                   data_be_xbr_s1;
-    logic [31:0]                  data_rdata_xbr_s1;
-    logic [31:0]                  data_wdata_xbr_s1;
-    // Data crossbar master 1 (CPU)
-    logic                         data_req_xbr_m1;
-    logic                         data_gnt_xbr_m1;
-    logic                         data_rvalid_xbr_m1;
-    logic [31:0]                  data_addr_xbr_m1;
-    logic                         data_we_xbr_m1;
-    logic [3:0]                   data_be_xbr_m1;
-    logic [31:0]                  data_rdata_xbr_m1;
-    logic [31:0]                  data_wdata_xbr_m1;
-    // Data crossbar master 2 (NVPE)
-    logic                         data_req_xbr_m2;
-    logic                         data_gnt_xbr_m2;
-    logic                         data_rvalid_xbr_m2;
-    logic [31:0]                  data_addr_xbr_m2;
-    logic                         data_we_xbr_m2;
-    logic [3:0]                   data_be_xbr_m2;
-    logic [31:0]                  data_rdata_xbr_m2;
-    logic [31:0]                  data_wdata_xbr_m2;
+    logic                         data_req;
+    logic                         data_gnt;
+    logic                         data_rvalid;
+    logic [31:0]                  data_addr;
+    logic                         data_we;
+    logic [3:0]                   data_be;
+    logic [31:0]                  data_rdata;
+    logic [31:0]                  data_wdata;
 
     logic [2:0][31:0]             apu_operands;
     logic [5:0]                   apu_op;
@@ -140,14 +122,14 @@ module cv32e40p_tb_wrapper
          .instr_addr_o           ( instr_addr            ),
          .instr_rdata_i          ( instr_rdata           ),
 
-         .data_req_o             ( data_req_xbr_m1       ),
-         .data_gnt_i             ( data_gnt_xbr_m1       ),
-         .data_rvalid_i          ( data_rvalid_xbr_m1    ),
-         .data_we_o              ( data_we_xbr_m1        ),
-         .data_be_o              ( data_be_xbr_m1        ),
-         .data_addr_o            ( data_addr_xbr_m1      ),
-         .data_wdata_o           ( data_wdata_xbr_m1     ),
-         .data_rdata_i           ( data_rdata_xbr_m1     ),
+         .data_req_o             ( data_req              ),
+         .data_gnt_i             ( data_gnt              ),
+         .data_rvalid_i          ( data_rvalid           ),
+         .data_we_o              ( data_we               ),
+         .data_be_o              ( data_be               ),
+         .data_addr_o            ( data_addr             ),
+         .data_wdata_o           ( data_wdata            ),
+         .data_rdata_i           ( data_rdata            ),
 
          .apu_req_o              ( apu_req               ),
          .apu_gnt_i              ( apu_gnt               ),
@@ -186,14 +168,14 @@ module cv32e40p_tb_wrapper
          .instr_rvalid_o ( instr_rvalid                              ),
          .instr_gnt_o    ( instr_gnt                                 ),
 
-         .data_req_i     ( data_req_xbr_s1                           ),
-         .data_addr_i    ( data_addr_xbr_s1                          ),
-         .data_we_i      ( data_we_xbr_s1                            ),
-         .data_be_i      ( data_be_xbr_s1                            ),
-         .data_wdata_i   ( data_wdata_xbr_s1                         ),
-         .data_rdata_o   ( data_rdata_xbr_s1                         ),
-         .data_rvalid_o  ( data_rvalid_xbr_s1                        ),
-         .data_gnt_o     ( data_gnt_xbr_s1                           ),
+         .data_req_i     ( data_req                                  ),
+         .data_addr_i    ( data_addr                                 ),
+         .data_we_i      ( data_we                                   ),
+         .data_be_i      ( data_be                                   ),
+         .data_wdata_i   ( data_wdata                                ),
+         .data_rdata_o   ( data_rdata                                ),
+         .data_rvalid_o  ( data_rvalid                               ),
+         .data_gnt_o     ( data_gnt                                  ),
 
          // TODO: Interrupts need to be re-done
          .irq_id_i       ( irq_id_out                                ),
@@ -209,37 +191,6 @@ module cv32e40p_tb_wrapper
          .exit_valid_o   ( exit_valid_o                              ),
          .exit_value_o   ( exit_value_o                              ));
 
-    cv32e40n_data_xbar xbar_mux
-       (.clk_i                  ( clk_i                     ),
-        .rst_ni                 ( rst_ni                    ),
-
-        .data_req_xbr_s1_o      ( data_req_xbr_s1           ),
-        .data_gnt_xbr_s1_i      ( data_gnt_xbr_s1           ),
-        .data_rvalid_xbr_s1_i   ( data_rvalid_xbr_s1        ),
-        .data_addr_xbr_s1_o     ( data_addr_xbr_s1          ),
-        .data_we_xbr_s1_o       ( data_we_xbr_s1            ),
-        .data_be_xbr_s1_o       ( data_be_xbr_s1            ),
-        .data_rdata_xbr_s1_i    ( data_rdata_xbr_s1         ),
-        .data_wdata_xbr_s1_o    ( data_wdata_xbr_s1         ),
-
-        .data_req_xbr_m1_i      ( data_req_xbr_m1           ),
-        .data_gnt_xbr_m1_o      ( data_gnt_xbr_m1           ),
-        .data_rvalid_xbr_m1_o   ( data_rvalid_xbr_m1        ),
-        .data_addr_xbr_m1_i     ( data_addr_xbr_m1          ),
-        .data_we_xbr_m1_i       ( data_we_xbr_m1            ),
-        .data_be_xbr_m1_i       ( data_be_xbr_m1            ),
-        .data_rdata_xbr_m1_o    ( data_rdata_xbr_m1         ),
-        .data_wdata_xbr_m1_i    ( data_wdata_xbr_m1         ),
-
-        .data_req_xbr_m2_i      ( data_req_xbr_m2           ),
-        .data_gnt_xbr_m2_o      ( data_gnt_xbr_m2           ),
-        .data_rvalid_xbr_m2_o   ( data_rvalid_xbr_m2        ),
-        .data_addr_xbr_m2_i     ( data_addr_xbr_m2          ),
-        .data_we_xbr_m2_i       ( data_we_xbr_m2            ),
-        .data_be_xbr_m2_i       ( data_be_xbr_m2            ),
-        .data_rdata_xbr_m2_o    ( data_rdata_xbr_m2         ),
-        .data_wdata_xbr_m2_i    ( data_wdata_xbr_m2         ));
-
     accelerator_top a_top
        (.apu_result(apu_result),
         .apu_flags_o(apu_flags_r),
@@ -250,15 +201,6 @@ module cv32e40p_tb_wrapper
         .apu_req(apu_req),
         .apu_operands_i(apu_operands),
         .apu_op(apu_op),
-        .apu_flags_i(apu_flags),
-        .data_req_o(data_req_xbr_m2),
-        .data_gnt_i(data_gnt_xbr_m2),
-        .data_rvalid_i(data_rvalid_xbr_m2),
-        .data_we_o(data_we_xbr_m2),
-        .data_be_o(data_be_xbr_m2),
-        .data_addr_o(data_addr_xbr_m2),
-        .data_wdata_o(data_wdata_xbr_m2),
-        .data_rdata_i(data_rdata_xbr_m2));
-     
+        .apu_flags_i(apu_flags));
 
 endmodule // cv32e40p_tb_wrapper

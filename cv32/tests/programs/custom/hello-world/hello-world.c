@@ -25,17 +25,20 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 
+      //"nop; nop; nop;"
+      //"   
 void vect_loadVector32(int N, int32_t* ptr) {
     __asm__ (
       "vsetvli t2, a0, e32;"
-      "vle.v v4, (a1);"
-      "add a1, a1, t2;"		           		
-      "vle.v v5, (a1);"		           		
+      "vle.v v4, (a1);"        		
       "add a1, a1, t2;"
-      "vle.v v6, (a1);"	           		
-      "add a1, a1, t2;"
-      "vle.v v7, (a1);"          		
+      "vle.v v5, (a1);"
+      "add a1, a1, t2;"	 
+      "vle.v v6, (a1);"
+      "add a1, a1, t2;"		
+      "vle.v v7, (a1);"	
     );
 }
 
@@ -69,13 +72,10 @@ int main(int argc, char *argv[])
     // Test vector instruction
 
     int32_t c = 128;
-    int32_t a[5] = {123, 32, 16, 23};
-    int32_t b[4] = {78, 32, 12, 1};
+    int32_t a[7] = {123, 32, 16, 23, 78, 32, 12};
 
-    printf("%x %x\n", a, b);
-
-    //vect_add(4, a);
-
+    printf("%x", a);
+    
     vect_loadVector32(4, a);
 
     printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
