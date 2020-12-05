@@ -29,7 +29,7 @@
 
       //"nop; nop; nop;"
       //"add a1, a1, t2;"
-void vect_loadVector32(int N, int32_t* ptr) {
+void vect_loadVector32_precalc(int N, int32_t* ptr) {
     __asm__ (
       "vsetvli t2, a0, e32, m1;"
       "add t3, a1, a0;"
@@ -39,12 +39,19 @@ void vect_loadVector32(int N, int32_t* ptr) {
       "vle.v v5, (t3);"
       "vle.v v6, (t4);"
       "vle.v v7, (t5);"	
-      "add t3, t5, a0;"
-      "add t4, t3, a0;"
-      "add t5, t4, a0;"	 	 	 
-      "vle.v v1, (t3);"        		
-      "vle.v v2, (t4);"
-      "vle.v v3, (t5);"	
+    );
+}
+
+void vect_loadVector32_interleaved(int N, int32_t* ptr) {
+    __asm__ (
+      "vsetvli t2, a0, e32, m1;"	 	 	 
+      "vle.v v4, (a1);" 
+      "add a1, a1, a0;" 	       		
+      "vle.v v5, (t3);"
+      "add a1, a1, a0;" 	       		
+      "vle.v v6, (t4);"
+      "add a1, a1, a0;" 	       		
+      "vle.v v7, (t5);"
     );
 }
 
@@ -81,7 +88,8 @@ int main(int argc, char *argv[])
     int32_t a[7] = {123, 32, 16, 23, 78, 32, 12,};
     printf("%x", a);
     
-    vect_loadVector32(4, a);
+    vect_loadVector32_precalc(4, a);
+    vect_loadVector32_interleaved(4, a);
 
     printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
     printf("CV32E40P is a RISC-V ISA compliant core with the following attributes:\n");
