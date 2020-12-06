@@ -27,10 +27,26 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-void vect_loadVector(int N, int8_t* ptr) {
+void vect_loadVector8(int N, int8_t* ptr) {
     __asm__ (
       "nop;"
-      "vsetvli t2, a0, e8, m1;"
+      "vsetvli t2, a0, e8, m2;"
+      "vle.v v4, (a1);"
+    );
+}
+
+void vect_loadVector16(int N, int16_t* ptr) {
+    __asm__ (
+      "nop;"
+      "vsetvli t2, a0, e16, m4;"
+      "vle.v v4, (a1);"
+    );
+}
+
+void vect_loadVector32(int N, int32_t* ptr) {
+    __asm__ (
+      "nop;"
+      "vsetvli t2, a0, e32, m4;"
       "vle.v v4, (a1);"
     );
 }
@@ -64,8 +80,13 @@ int main(int argc, char *argv[])
     // Test vector instruction
 
     int8_t a[8] = {123, 32, 16, 23, 78, 32, 12, 24};
+    int16_t b[8] = {123, 32, 16, 23, 78, 32, 12, 24};
+    int32_t c[8] = {123, 32, 16, 23, 78, 32, 12, 24};
     printf("%d\n", a[0]);
-    vect_loadVector(4, a);
+    vect_loadVector8(4, a);
+    vect_loadVector16(4, b);
+    vect_loadVector32(4, c);
+
 
     printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
     printf("CV32E40P is a RISC-V ISA compliant core with the following attributes:\n");
