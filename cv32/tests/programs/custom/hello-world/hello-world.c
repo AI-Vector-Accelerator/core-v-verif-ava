@@ -27,38 +27,11 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-      //"nop; nop; nop;"
-      //"add a1, a1, t2;"
-void vect_loadVector32_precalc(int N, int32_t* ptr) {
+void vect_loadVector(int N, int8_t* ptr) {
     __asm__ (
-      "vsetvli t2, a0, e32, m1;"
-      "add t3, a1, a0;"
-      "add t4, t3, a0;"
-      "add t5, t4, a0;"	 	 	 
-      "vle.v v4, (a1);"        		
-      "vle.v v5, (t3);"
-      "vle.v v6, (t4);"
-      "vle.v v7, (t5);"
-    );
-}
-
-void vect_loadVector32_interleaved(int N, int32_t* ptr) {
-    __asm__ (
-      "vsetvli t2, a0, e32, m1;"	 	 	 
-      "vle.v v1, (a1);" 
-      "add a1, a1, a0;" 	       		
-      "vle.v v2, (t3);"
-      "add a1, a1, a0;" 	       		
-      "vle.v v3, (t4);"
-      "add a1, a1, a0;" 	       		
-      "vle.v v4, (t5);"
-    );
-}
-
-void vect_add(int N, int32_t* ptr) {
-    __asm__ (
-      "vsetvli t6, a0, e32;"
-      "add a1, a1, t6;"
+      "nop;"
+      "vsetvli t2, a0, e8, m1;"
+      "vle.v v4, (a1);"
     );
 }
 
@@ -90,13 +63,9 @@ int main(int argc, char *argv[])
     printf("\nHELLO WORLD!!!\n");
     // Test vector instruction
 
-    int32_t c = 128;
-    int32_t a[7] = {123, 32, 16, 23, 78, 32, 12,};
+    int8_t a[8] = {123, 32, 16, 23, 78, 32, 12, 24};
     printf("%d\n", a[0]);
-    vect_loadVector32_precalc(4, a);
-    vstore_test(a);
-    printf("%d\n", a[0]);
-    //vect_loadVector32_interleaved(4, a);
+    vect_loadVector(4, a);
 
     printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
     printf("CV32E40P is a RISC-V ISA compliant core with the following attributes:\n");
