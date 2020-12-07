@@ -16,11 +16,14 @@ int shift_left_test_e8_m1(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: %d\n", output);
-    if(output != 8)
+    if(output != 8) {
+        printf("Test FAIL! Output: %d\n", output);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: %d\n", output);
         return(0);
+    }
+        
     
 }
 
@@ -41,11 +44,13 @@ int shift_left_test_e8_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
-    if(output0 != 4 || output1 != 8)
+    if(output0 != 4 || output1 != 8) {
+        printf("Test FAIL! Output: v4: %d\tv5: %d\n", output0, output1);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v4: %d\tv5: %d\n", output0, output1);
         return(0);
+    }
     
 }
 
@@ -70,11 +75,13 @@ int shift_left_test_e8_m4(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
-    if(output0 != 2 || output1 != 4 || output2 != 8 || output3 != 16)
+    if(output0 != 2 || output1 != 4 || output2 != 8 || output3 != 16) {
+        printf("Test FAIL! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
         return(0);
+    }
 }
 
 
@@ -92,11 +99,13 @@ int shift_right_test_e8_m1(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: %d\n", output);
-    if(output != 2)
+    if(output != 2) {
+        printf("Test FAIL! Output: %d\n", output);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: %d\n", output);
         return(0);
+    }
     
 }
 
@@ -117,11 +126,13 @@ int shift_right_test_e8_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
-    if(output0 != 1 || output1 != 2)
+    if(output0 != 1 || output1 != 2) {
+        printf("Test FAIL! Output: v4: %d\tv5: %d\n", output0, output1);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v4: %d\tv5: %d\n", output0, output1);
         return(0);
+    }
     
 }
 
@@ -136,7 +147,7 @@ int shift_right_test_e8_m4(uint8_t vlen)
         "vmv.v.i v5, 2\n\t"
         "vmv.v.i v6, 4\n\t"
         "vmv.v.i v7, 8\n\t"
-        "vsetvli  %4, %1, e8, m4\n\t"
+        "vsetvli %4, %1, e8, m4\n\t"
         "vsrl.vi v8, v4, 1\n\t"
         "vsetvli t2, %1, e8\n\t"
         "vmv.x.s %0, v8\n\t"
@@ -147,12 +158,14 @@ int shift_right_test_e8_m4(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
-    printf("Len = %d\n", len);
-    if(output0 != 0 || output1 != 1 || output2 != 2 || output3 != 4)
+    printf("Len = %u ", len);
+    if(output0 != 0 || output1 != 1 || output2 != 2 || output3 != 4) {
+        printf("Test FAIL! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
         return(0);
+    }
 }
 
 
@@ -171,12 +184,13 @@ int shift_left_test_e16_m1(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: %d\n", output);
-    if(output != 8)
+    if(output != 8) {
+        printf("Test FAIL! Output: %d\n", output);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: %d\n", output);
         return(0);
-    
+    }
 }
 
 int shift_left_test_e16_m2(uint8_t vlen) 
@@ -196,12 +210,13 @@ int shift_left_test_e16_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
-    if(output0 != 4 || output1 != 8)
+    if(output0 != 4 || output1 != 8) {
+        printf("Test FAIL! Output: v4: %d\tv5: %d\n", output0, output1);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v4: %d\tv5: %d\n", output0, output1);
         return(0);
-    
+    }
 }
 
 int shift_left_test_e16_m4(uint8_t vlen) 
@@ -225,11 +240,13 @@ int shift_left_test_e16_m4(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
-    if(output0 != 2 || output1 != 4 || output2 != 8 || output3 != 16)
+    if(output0 != 2 || output1 != 4 || output2 != 8 || output3 != 16) {
+        printf("Test FAIL! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
         return(0);
+    }
 }
 
 
@@ -247,12 +264,13 @@ int shift_right_test_e16_m1(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: %d\n", output);
-    if(output != 2)
+    if(output != 2) {
+        printf("Test FAIL! Output: %d\n", output);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: %d\n", output);
         return(0);
-    
+    }
 }
 
 int shift_right_test_e16_m2(uint8_t vlen) 
@@ -272,12 +290,13 @@ int shift_right_test_e16_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
-    if(output0 != 1 || output1 != 2)
+    if(output0 != 1 || output1 != 2) {
+        printf("Test FAIL! Output: v4: %d\tv5: %d\n", output0, output1);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v4: %d\tv5: %d\n", output0, output1);
         return(0);
-    
+    }
 }
 
 int shift_right_test_e16_m4(uint8_t vlen) 
@@ -302,12 +321,14 @@ int shift_right_test_e16_m4(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
-    printf("Len = %d\n", len);
-    if(output0 != 0 || output1 != 1 || output2 != 2 || output3 != 4)
+    printf("Len = %u ", len);
+    if(output0 != 0 || output1 != 1 || output2 != 2 || output3 != 4) {
+        printf("Test FAIL! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
         return(0);
+    }
 }
 
 
@@ -324,12 +345,13 @@ int shift_left_test_e32_m1(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: %d\n", output);
-    if(output != 8)
+    if(output != 8) {
+        printf("Test FAIL! Output: %d\n", output);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: %d\n", output);
         return(0);
-    
+    }
 }
 
 int shift_left_test_e32_m2(uint8_t vlen) 
@@ -349,12 +371,13 @@ int shift_left_test_e32_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
-    if(output0 != 4 || output1 != 8)
+    if(output0 != 4 || output1 != 8) {
+        printf("Test FAIL! Output: v4: %d\tv5: %d\n", output0, output1);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v4: %d\tv5: %d\n", output0, output1);
         return(0);
-    
+    }
 }
 
 int shift_left_test_e32_m4(uint8_t vlen) 
@@ -378,11 +401,13 @@ int shift_left_test_e32_m4(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
-    if(output0 != 2 || output1 != 4 || output2 != 8 || output3 != 16)
+    if(output0 != 2 || output1 != 4 || output2 != 8 || output3 != 16) {
+        printf("Test FAIL! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
         return(0);
+    }
 }
 
 
@@ -400,12 +425,13 @@ int shift_right_test_e32_m1(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: %d\n", output);
-    if(output != 2)
+    if(output != 2) {
+        printf("Test FAIL! Output: %d\n", output);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: %d\n", output);
         return(0);
-    
+    }
 }
 
 int shift_right_test_e32_m2(uint8_t vlen) 
@@ -425,11 +451,13 @@ int shift_right_test_e32_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
-    if(output0 != 1 || output1 != 2)
+    if(output0 != 1 || output1 != 2) {
+        printf("Test FAIL! Output: v4: %d\tv5: %d\n", output0, output1);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v4: %d\tv5: %d\n", output0, output1);
         return(0);
+    }
     
 }
 
@@ -455,12 +483,14 @@ int shift_right_test_e32_m4(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
-    printf("Len = %d\n", len);
-    if(output0 != 0 || output1 != 1 || output2 != 2 || output3 != 4)
+    printf("Len = %u ", len);
+    if(output0 != 0 || output1 != 1 || output2 != 2 || output3 != 4) {
+        printf("Test FAIL! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
         return(1);
-    else
+    } else {
+        printf("Test PASS! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
         return(0);
+    }
 }
 
 

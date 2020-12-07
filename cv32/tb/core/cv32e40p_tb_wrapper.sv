@@ -95,6 +95,8 @@ module cv32e40p_tb_wrapper
     logic [0:4]                   irq_id_out;
     logic                         irq_sec;
 
+    logic core_halt;
+
     // interrupts (only timer for now)
     assign irq_sec     = '0;
 
@@ -125,7 +127,7 @@ module cv32e40p_tb_wrapper
                 )
     cv32e40p_core_i
         (
-         .clk_i                  ( clk_i                 ),
+         .clk_i                  ( clk_i    ),
          .rst_ni                 ( rst_ni                ),
 
          .pulp_clock_en_i        ( '1                    ),
@@ -166,8 +168,9 @@ module cv32e40p_tb_wrapper
 
          .debug_req_i            ( debug_req ),
 
-         .fetch_enable_i         ( fetch_enable_i        ),
-         .core_sleep_o           ( core_sleep_o          )
+         .fetch_enable_i         ( fetch_enable_i ),
+         .core_sleep_o           ( core_sleep_o ),
+         .apu_core_halt          ( core_halt )
        );
 
     // this handles read to RAM and memory mapped pseudo peripherals
@@ -259,6 +262,7 @@ module cv32e40p_tb_wrapper
         .data_be_o(data_be_xbr_m2),
         .data_addr_o(data_addr_xbr_m2),
         .data_wdata_o(data_wdata_xbr_m2),
-        .data_rdata_i(data_rdata_xbr_m2));
+        .data_rdata_i(data_rdata_xbr_m2),
+        .core_halt_o(core_halt));
 
 endmodule // cv32e40p_tb_wrapper
