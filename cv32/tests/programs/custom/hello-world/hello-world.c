@@ -29,26 +29,39 @@
 
 void vect_loadVector8(int N, int8_t* ptr) {
     __asm__ (
-      "nop;"
-      "vsetvli t2, a0, e8, m2;"
-      "vle.v v4, (a1);"
+      "vsetvli t2, a0, e8, m2\n\t"
+      "vle.v v4, (a1)\n\t"
     );
 }
 
 void vect_loadVector16(int N, int16_t* ptr) {
     __asm__ (
-      "nop;"
-      "vsetvli t2, a0, e16, m4;"
-      "vle.v v4, (a1);"
+      "vsetvli t2, a0, e16, m4\n\t"
+      "vle.v v4, (a1)\n\t"
     );
 }
 
-void vect_loadVector32(int N, int32_t* ptr) {
-    __asm__ (
-      "nop;"
-      "vsetvli t2, a0, e32, m4;"
-      "vle.v v4, (a1);"
+void vect_loadVector32(int N, int32_t* ptr, uint32_t stride) {
+    //__asm__ (
+    //  "vsetvli t2, a0, e32, m4\n\t"
+    //  "vlse.v v4, (a1), a2\n\t"
+    // );
+
+    uint8_t vlen_o; 
+    uint8_t vlen = 4;
+
+    __asm__ volatile (
+      "vsetvli %0, %1, e32, m4\n\t"
+      "vlse.v v4, (%3), %2\n\t"
+      "vlse.v v8, (%4), %2\n\t"
+      "vadd.vv v12, v4, v8\n\t"
+      : "=r" (vlen_o) : "r" (vlen), "r" (stride), "r" (ptr), "r" (ptr+1)
     );
+
+    //__asm__ volatile (
+    //  
+    //);
+
 }
 
 void vstore_test(int32_t* ptr) {
@@ -79,13 +92,9 @@ int main(int argc, char *argv[])
     printf("\nHELLO WORLD!!!\n");
     // Test vector instruction
 
-    int8_t a[8] = {123, 32, 16, 23, 78, 32, 12, 24};
-    int16_t b[8] = {123, 32, 16, 23, 78, 32, 12, 24};
-    int32_t c[8] = {123, 32, 16, 23, 78, 32, 12, 24};
+    int32_t a[8] = {123, 32, 16, 23, 78, 32, 12, 24};
     printf("%d\n", a[0]);
-    vect_loadVector8(4, a);
-    vect_loadVector16(4, b);
-    vect_loadVector32(4, c);
+    vect_loadVector32(4, a, 8);
 
 
     printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
