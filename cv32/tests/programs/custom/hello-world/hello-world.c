@@ -1,162 +1,45 @@
-/*
-**
-** Copyright 2020 OpenHW Group
-** 
-** Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");
-** you may not use this file except in compliance with the License.
-** You may obtain a copy of the License at
-** 
-**     https://solderpad.org/licenses/
-** 
-** Unless required by applicable law or agreed to in writing, software
-** distributed under the License is distributed on an "AS IS" BASIS,
-** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-** See the License for the specific language governing permissions and
-** limitations under the License.
-** 
-*******************************************************************************
-**
-** Sanity test for the CV32E40P core.  Reads the MISA and MVENDORID CSRs and
-**                                     prints some useful (?) messages to
-**                                     stdout.  Will fail if MISA is not sane.
-**
-*******************************************************************************
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 
-      //"nop; nop; nop;"
-      //"add a1, a1, t2;"
-void vect_loadVector32(int N, int32_t* ptr) {
-    __asm__ (
-      "vsetvli t2, a0, e32, m1;"
-      "add t3, a1, a0;"
-      "add t4, t3, a0;"
-      "add t5, t4, a0;"	 	 	 
-      "vle.v v4, (a1);"        		
-      "vle.v v5, (t3);"
-      "vle.v v6, (t4);"
-      "vle.v v7, (t5);"	
-      "add t3, t5, a0;"
-      "add t4, t3, a0;"
-      "add t5, t4, a0;"	 	 	 
-      "vle.v v1, (t3);"        		
-      "vle.v v2, (t4);"
-      "vle.v v3, (t5);"	
+uint8_t vect_vsetvli(uint8_t avl) {
+  uint8_t vlen_o; 
+
+  asm volatile (
+    "vsetvli %0, %1, e32, m4\n\t"
+    : "=r" (vlen_o) : "r" (avl)
+  );
+
+  return vlen_o;
+}
+
+void vect_loadVector32(int N, int32_t* ptr, uint32_t stride) {
+    asm volatile (  
+      "vsetvli t0, a0, e32, m4\n\t"
+      "vlse.v v4, (%2), %0\n\t"
+      "vlse.v v8, (%1), %0\n\t"
+      "vadd.vv v12, v4, v8\n\t"
+      //"vsrl.vi v8, v4, 1\n\t"
+      :: "r" (stride), "r" (ptr), "r" (ptr+1)
     );
 }
 
-void vect_add(int N, int32_t* ptr) {
+void vstore_test(int32_t* ptr) {
     __asm__ (
-      "vsetvli t6, a0, e32;"
-      "add a1, a1, t6;"
+      "vse.v v7, (a1)"
     );
 }
 
 int main(int argc, char *argv[])
 {
-    unsigned int misa_rval, mxl;
-             int reserved, tentative, nonstd, user, super, nvpe;
+  printf("\nRunning Test\n");
+  // Test vector instruction
 
-    mxl = 0; reserved = 0; tentative = 0; nonstd = 0; user = 0; super = 0; nvpe = 0;
+  int32_t a[8] = {123, 32, 16, 23, 78, 32, 12, 24};
 
-    /* inline assembly: read mvendorid and misa */
-    asm volatile("ecall");
-    // __asm__ volatile("csrr %0, 0xF11" : "=r"(mvendorid_rval));
-    __asm__ volatile("csrr %0, 0x301" : "=r"(misa_rval));
+  //vect_vsetvli(4);
+  vect_loadVector32(4, a, 8);
 
-    /* Check MISA CSR: if its zero, it might not be implemented at all */
-    if (misa_rval == 0x0) {
-      printf("\tERROR: CSR MISA returned zero!\n\n");
-      return EXIT_FAILURE;
-    }
-
-    /* Print a banner to stdout and interpret MISA CSR */
-    printf("\nHELLO WORLD!!!\n");
-    // Test vector instruction
-
-    int32_t c = 128;
-    int32_t a[7] = {123, 32, 16, 23, 78, 32, 12,};
-    printf("%x", a);
-    
-    vect_loadVector32(4, a);
-
-    printf("This is the OpenHW Group CV32E40P CORE-V processor core.\n");
-    printf("CV32E40P is a RISC-V ISA compliant core with the following attributes:\n");
-    // printf("\tmvendorid = 0x%0x\n", mvendorid_rval);
-    printf("\tmisa      = 0x%0x\n", misa_rval);
-    mxl = ((misa_rval & 0xC0000000) >> 30); // MXL == MISA[31:30]
-    switch (mxl) {
-      case 0:  printf("\tERROR: MXL cannot be zero!\n");
-               return EXIT_FAILURE;
-               break;
-      case 1:  printf("\tXLEN is 32-bits\n");
-               break;
-      case 2:  printf("\tXLEN is 64-bits\n");
-               break;
-      case 3:  printf("\tXLEN is 128-bits\n");
-               break;
-      default: printf("\tERROR: mxl (%0d) not in 0..3, your code is broken!\n", mxl);
-               return EXIT_FAILURE;
-    }
-
-    printf("\tSupported Instructions: ");
-    if ((misa_rval >> 25) & 0x00000001) ++reserved;
-    if ((misa_rval >> 24) & 0x00000001) ++reserved;
-    if ((misa_rval >> 23) & 0x00000001) {
-      printf("X");
-      ++nonstd;
-    }
-    if ((misa_rval >> 22) & 0x00000001) ++reserved;
-    if ((misa_rval >> 21) & 0x00000001) {
-      printf("V");
-      ++nvpe;
-    }
-    if ((misa_rval >> 20) & 0x00000001) ++user;
-    if ((misa_rval >> 19) & 0x00000001) ++tentative;
-    if ((misa_rval >> 18) & 0x00000001) ++super;
-    if ((misa_rval >> 17) & 0x00000001) ++reserved;
-    if ((misa_rval >> 16) & 0x00000001) printf("Q");
-    if ((misa_rval >> 15) & 0x00000001) ++tentative;
-    if ((misa_rval >> 14) & 0x00000001) ++reserved;
-    if ((misa_rval >> 13) & 0x00000001) printf("N");
-    if ((misa_rval >> 12) & 0x00000001) printf("M");
-    if ((misa_rval >> 11) & 0x00000001) ++tentative;
-    if ((misa_rval >> 10) & 0x00000001) ++reserved;
-    if ((misa_rval >>  9) & 0x00000001) printf("J");
-    if ((misa_rval >>  8) & 0x00000001) printf("I");
-    if ((misa_rval >>  7) & 0x00000001) printf("H");
-    if ((misa_rval >>  6) & 0x00000001) printf("G");
-    if ((misa_rval >>  5) & 0x00000001) printf("F");
-    if ((misa_rval >>  4) & 0x00000001) printf("E");
-    if ((misa_rval >>  3) & 0x00000001) printf("D");
-    if ((misa_rval >>  2) & 0x00000001) printf("C");
-    if ((misa_rval >>  1) & 0x00000001) printf("B");
-    if ((misa_rval      ) & 0x00000001) printf("A");
-    printf("\n");
-    if (super) {
-      printf("\tThis machine supports SUPERVISOR mode.\n");
-    }
-    if (user) {
-      printf("\tThis machine supports USER mode.\n");
-    }
-    if (nonstd) {
-      printf("\tThis machine supports non-standard instructions.\n");
-    }
-    if (nvpe) {
-      printf("\tThis machine supports Neural Vector Processing Engine instructions. (Subset of 0.8 'V' extensions)\n");
-    }
-    if (tentative) {
-      printf("\tWARNING: %0d tentative instruction extensions are defined!\n", tentative);
-    }
-    if (reserved) {
-      printf("\tERROR: %0d reserved instruction extensions are defined!\n\n", reserved);
-      return EXIT_FAILURE;
-    }
-    else {
-      printf("\n");
-      return EXIT_SUCCESS;
-    }
+  printf("\nTest Complete\n");
+  return EXIT_SUCCESS;
 }
