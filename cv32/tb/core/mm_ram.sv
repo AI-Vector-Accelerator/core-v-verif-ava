@@ -55,7 +55,7 @@ module mm_ram
      input logic [31:0]                   pc_core_id_i,
 
      output logic                         debug_req_o,
-   
+
      output logic                         tests_passed_o,
      output logic                         tests_failed_o,
      output logic                         exit_valid_o,
@@ -73,7 +73,7 @@ module mm_ram
     localparam int                        RND_STALL_DATA_GNT    = 7;
     localparam int                        RND_STALL_DATA_VALID  = 9;
 
-    localparam int                        RND_IRQ_ID     = 31;    
+    localparam int                        RND_IRQ_ID     = 31;
 
     // mux for read and writes
     enum logic [2:0]{RAM, MM, RND_STALL, ERR, RND_NUM} select_rdata_d, select_rdata_q;
@@ -133,7 +133,7 @@ module mm_ram
     // debugger control signals
     logic [31:0]                   debugger_wdata;
     logic                          debugger_valid;
- 
+
     // signals to rnd_stall
     logic [31:0]                   rnd_stall_regs [0:RND_STALL_REGS-1];
 
@@ -144,10 +144,10 @@ module mm_ram
     logic [31:0]                   rnd_stall_rdata;
 
     //signal delayed by random stall
-    logic                          rnd_stall_instr_req;    
+    logic                          rnd_stall_instr_req;
     logic                          rnd_stall_instr_gnt;
 
-    logic                          rnd_stall_data_req;    
+    logic                          rnd_stall_data_req;
     logic                          rnd_stall_data_gnt;
 
     // random number generation
@@ -156,7 +156,7 @@ module mm_ram
 
     //random or monitor interrupt request
     logic                          rnd_irq;
-   
+
    // uhh, align?
     always_comb data_addr_aligned = {data_addr_i[31:2], 2'b0};
 
@@ -164,68 +164,68 @@ module mm_ram
         for (i = 0; i < RND_STALL_REGS; i=i+1) begin
             rnd_stall_regs[i] = 0;
         end
-`ifndef VERILATOR
-        #1ns;
-        if (!$test$plusargs("rand_stall_obi_disable")) begin
-            if ($test$plusargs("max_data_zero_instr_stall")) begin
-                `uvm_info("RNDSTALL", "Max data stall, zero instruction stall configuration", UVM_LOW)
-                // This "knob" creates maximum stalls on data loads/stores, and
-                // no stalls on instruction fetches.  Used for fence.i testing. 
-                rnd_stall_regs[RND_STALL_DATA_EN]     = 1;
-                rnd_stall_regs[RND_STALL_DATA_MODE]   = 2;
-                rnd_stall_regs[RND_STALL_DATA_GNT]    = 2;
-                rnd_stall_regs[RND_STALL_DATA_VALID]  = 2;
-                rnd_stall_regs[RND_STALL_DATA_MAX]    = 3;
-            end
-            else begin
-                randcase
-                    2: begin
-                        // No delays
-                    end
-                    1: begin
-                        // Create RAM stall delays
-                        rnd_stall_regs[RND_STALL_INSTR_EN]    = 1;
-                        rnd_stall_regs[RND_STALL_INSTR_MODE]  = $urandom_range(2,1);
-                        rnd_stall_regs[RND_STALL_INSTR_GNT]   = $urandom_range(3,0);
-                        rnd_stall_regs[RND_STALL_INSTR_VALID] = $urandom_range(3,0);
-                        rnd_stall_regs[RND_STALL_INSTR_MAX]   = $urandom_range(3,0);
-                    end
-                endcase
+// `ifndef VERILATOR
+//         #1ns;
+//         if (!$test$plusargs("rand_stall_obi_disable")) begin
+//             if ($test$plusargs("max_data_zero_instr_stall")) begin
+//                 `uvm_info("RNDSTALL", "Max data stall, zero instruction stall configuration", UVM_LOW)
+//                 // This "knob" creates maximum stalls on data loads/stores, and
+//                 // no stalls on instruction fetches.  Used for fence.i testing.
+//                 rnd_stall_regs[RND_STALL_DATA_EN]     = 1;
+//                 rnd_stall_regs[RND_STALL_DATA_MODE]   = 2;
+//                 rnd_stall_regs[RND_STALL_DATA_GNT]    = 2;
+//                 rnd_stall_regs[RND_STALL_DATA_VALID]  = 2;
+//                 rnd_stall_regs[RND_STALL_DATA_MAX]    = 3;
+//             end
+//             else begin
+//                 randcase
+//                     2: begin
+//                         // No delays
+//                     end
+//                     1: begin
+//                         // Create RAM stall delays
+//                         rnd_stall_regs[RND_STALL_INSTR_EN]    = 1;
+//                         rnd_stall_regs[RND_STALL_INSTR_MODE]  = $urandom_range(2,1);
+//                         rnd_stall_regs[RND_STALL_INSTR_GNT]   = $urandom_range(3,0);
+//                         rnd_stall_regs[RND_STALL_INSTR_VALID] = $urandom_range(3,0);
+//                         rnd_stall_regs[RND_STALL_INSTR_MAX]   = $urandom_range(3,0);
+//                     end
+//                 endcase
 
-                randcase
-                    2: begin
-                        // No delays
-                    end
-                    1: begin
-                        // Create RAM stall delays
-                        rnd_stall_regs[RND_STALL_DATA_EN]     = 1;
-                        rnd_stall_regs[RND_STALL_DATA_MODE]   = $urandom_range(2,1);
-                        rnd_stall_regs[RND_STALL_DATA_GNT]    = $urandom_range(2,0);
-                        rnd_stall_regs[RND_STALL_DATA_VALID]  = $urandom_range(2,0);
-                        rnd_stall_regs[RND_STALL_DATA_MAX]    = $urandom_range(3,0);
-                    end
-                endcase
-            end
-        end
+//                 randcase
+//                     2: begin
+//                         // No delays
+//                     end
+//                     1: begin
+//                         // Create RAM stall delays
+//                         rnd_stall_regs[RND_STALL_DATA_EN]     = 1;
+//                         rnd_stall_regs[RND_STALL_DATA_MODE]   = $urandom_range(2,1);
+//                         rnd_stall_regs[RND_STALL_DATA_GNT]    = $urandom_range(2,0);
+//                         rnd_stall_regs[RND_STALL_DATA_VALID]  = $urandom_range(2,0);
+//                         rnd_stall_regs[RND_STALL_DATA_MAX]    = $urandom_range(3,0);
+//                     end
+//                 endcase
+//             end
+//         end
 
-        `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall enable: %0d", rnd_stall_regs[RND_STALL_INSTR_EN]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall mode:   %0d", rnd_stall_regs[RND_STALL_INSTR_MODE]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall gnt:    %0d", rnd_stall_regs[RND_STALL_INSTR_GNT]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall valid:  %0d", rnd_stall_regs[RND_STALL_INSTR_VALID]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall max:    %0d", rnd_stall_regs[RND_STALL_INSTR_MAX]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall enable: %0d", rnd_stall_regs[RND_STALL_DATA_EN]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall mode:   %0d", rnd_stall_regs[RND_STALL_DATA_MODE]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall gnt:    %0d", rnd_stall_regs[RND_STALL_DATA_GNT]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall valid:  %0d", rnd_stall_regs[RND_STALL_DATA_VALID]), UVM_LOW)
-        `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall max:    %0d", rnd_stall_regs[RND_STALL_DATA_MAX]), UVM_LOW)
-`endif
+//         `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall enable: %0d", rnd_stall_regs[RND_STALL_INSTR_EN]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall mode:   %0d", rnd_stall_regs[RND_STALL_INSTR_MODE]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall gnt:    %0d", rnd_stall_regs[RND_STALL_INSTR_GNT]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall valid:  %0d", rnd_stall_regs[RND_STALL_INSTR_VALID]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("INSTR OBI stall max:    %0d", rnd_stall_regs[RND_STALL_INSTR_MAX]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall enable: %0d", rnd_stall_regs[RND_STALL_DATA_EN]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall mode:   %0d", rnd_stall_regs[RND_STALL_DATA_MODE]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall gnt:    %0d", rnd_stall_regs[RND_STALL_DATA_GNT]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall valid:  %0d", rnd_stall_regs[RND_STALL_DATA_VALID]), UVM_LOW)
+//         `uvm_info("RNDSTALL", $sformatf("DATA  OBI stall max:    %0d", rnd_stall_regs[RND_STALL_DATA_MAX]), UVM_LOW)
+// `endif
     end
 
-`ifndef VERILATOR
-    function bit is_stall_sim();
-        return rnd_stall_regs[RND_STALL_DATA_EN] || rnd_stall_regs[RND_STALL_INSTR_EN];
-    endfunction : is_stall_sim
-`endif
+// `ifndef VERILATOR
+//     function bit is_stall_sim();
+//         return rnd_stall_regs[RND_STALL_DATA_EN] || rnd_stall_regs[RND_STALL_INSTR_EN];
+//     endfunction : is_stall_sim
+// `endif
 
     // handle the mapping of read and writes to either memory or pseudo
     // peripherals (currently just a redirection of writes to stdout)
@@ -309,12 +309,12 @@ module mm_ram
                     if ($value$plusargs("signature=%s", sig_file)) begin
                         sig_fd = $fopen(sig_file, "w");
                         if (sig_fd == 0) begin
-`ifndef VERILATOR
-                            errno = $ferror(sig_fd, error_str);
-                            $error(error_str);
-`else
+// `ifndef VERILATOR
+//                             errno = $ferror(sig_fd, error_str);
+//                             $error(error_str);
+// `else
                             $error("can't open file");
-`endif
+// `endif
                             use_sig_file = 1'b0;
                         end else begin
                             use_sig_file = 1'b1;
@@ -399,27 +399,27 @@ module mm_ram
         end
     end
 
-`ifndef VERILATOR
-    // signal out of bound writes
-    out_of_bounds_write: assert property
-    (@(posedge clk_i) disable iff (~rst_ni)
-     (data_req_i && data_we_i |-> data_addr_i < 2 ** RAM_ADDR_WIDTH
-      || ( (data_addr_i >= dm_halt_addr_i) &&
-           (data_addr_i < (dm_halt_addr_i + (2 ** DBG_ADDR_WIDTH)) )
-         )
-      || data_addr_i == 32'h1000_0000
-      || data_addr_i == 32'h1500_0000
-      || data_addr_i == 32'h1500_0004
-      || data_addr_i == 32'h1500_0008
-      || data_addr_i == 32'h2000_0000
-      || data_addr_i == 32'h2000_0004
-      || data_addr_i == 32'h2000_0008
-      || data_addr_i == 32'h2000_000c
-      || data_addr_i == 32'h2000_0010
-      || data_addr_i[31:16] == 16'h1600))
-        else $fatal(1, "out of bounds write to %08x with %08x",
-                    data_addr_i, data_wdata_i);
-`endif
+// `ifndef VERILATOR
+//     // signal out of bound writes
+//     out_of_bounds_write: assert property
+//     (@(posedge clk_i) disable iff (~rst_ni)
+//      (data_req_i && data_we_i |-> data_addr_i < 2 ** RAM_ADDR_WIDTH
+//       || ( (data_addr_i >= dm_halt_addr_i) &&
+//            (data_addr_i < (dm_halt_addr_i + (2 ** DBG_ADDR_WIDTH)) )
+//          )
+//       || data_addr_i == 32'h1000_0000
+//       || data_addr_i == 32'h1500_0000
+//       || data_addr_i == 32'h1500_0004
+//       || data_addr_i == 32'h1500_0008
+//       || data_addr_i == 32'h2000_0000
+//       || data_addr_i == 32'h2000_0004
+//       || data_addr_i == 32'h2000_0008
+//       || data_addr_i == 32'h2000_000c
+//       || data_addr_i == 32'h2000_0010
+//       || data_addr_i[31:16] == 16'h1600))
+//         else $fatal(1, "out of bounds write to %08x with %08x",
+//                     data_addr_i, data_wdata_i);
+// `endif
 
     logic[31:0] data_rdata_mux;
 
@@ -430,15 +430,15 @@ module mm_ram
         if(select_rdata_q == RAM) begin
             data_rdata_mux = core_data_rdata;
         end else if(select_rdata_q == RND_STALL) begin
-`ifndef VERILATOR
-            data_rdata_mux = rnd_stall_rdata;
-`else
+// `ifndef VERILATOR
+//             data_rdata_mux = rnd_stall_rdata;
+// `else
             $display("out of bounds read from %08x\nRandom stall generator is not supported with Verilator", data_addr_i);
             $fatal(2);
-`endif
-        
+// `endif
+
         end else if (select_rdata_q == RND_NUM) begin
-            data_rdata_mux = rnd_num;    
+            data_rdata_mux = rnd_num;
         end else if (select_rdata_q == ERR) begin
             $display("out of bounds read from %08x", data_addr_i);
             $fatal(2);
@@ -506,18 +506,18 @@ module mm_ram
           end
         end
     end // block: tb_stall
-  
+
    // -------------------------------------------------------------
    // Generate a random number using the SystemVerilog random number function
    always_ff @(posedge clk_i, negedge rst_ni) begin : rnd_num_gen
-        if (!rst_ni) 
+        if (!rst_ni)
             rnd_num <= 32'h0;
         else if (rnd_num_req)
-`ifndef VERILATOR
-            rnd_num <= $urandom();
-`else
+// `ifndef VERILATOR
+//             rnd_num <= $urandom();
+// `else
             rnd_num <= 32'h0;
-`endif
+// `endif
    end
 
    // -------------------------------------------------------------
@@ -548,53 +548,53 @@ module mm_ram
                if(debugger_wdata[15]) //If random start
                  // then set max random delay range to wdata[14:0]
                  // note, if wdata[14:0] == 0, then assign max random range to 128
-`ifndef VERILATOR
-                 debugger_start_cnt_q <= $urandom_range(1,~|debugger_wdata[14:0] ? 128 : debugger_wdata[14:0]);
-`else
+// `ifndef VERILATOR
+//                  debugger_start_cnt_q <= $urandom_range(1,~|debugger_wdata[14:0] ? 128 : debugger_wdata[14:0]);
+// `else
                  debugger_start_cnt_q <= 1;
-`endif
+// `endif
                else
                  // else, the delay is determined by wdata[14:0]
                  //  note, if wdata[14:0] == 0, then assign value to 1
                  debugger_start_cnt_q <= ~|debugger_wdata[14:0] ? 1 : debugger_wdata[14:0];
 
                debug_req_value_q <= debugger_wdata[31]; // value to be applied to debug_req
-               
+
                if(!debugger_wdata[30]) // If mode is level then set duration to 0
                  debug_req_duration_q <= 'b0;
                else // Else mode is pulse
                  if(debugger_wdata[29]) // If random pulse width
                    // then set max random pulse width to wdata[28:16]
                    //  note, if wdata[28:16] ==0, then assign max to 128
-`ifndef VERILATOR
-                   debug_req_duration_q <= $urandom_range(1,~|debugger_wdata[28:16] ? 128 : debugger_wdata[28:16]);
-`else
+// `ifndef VERILATOR
+//                    debug_req_duration_q <= $urandom_range(1,~|debugger_wdata[28:16] ? 128 : debugger_wdata[28:16]);
+// `else
                    debugger_start_cnt_q <= 1;
-`endif
+// `endif
                 else
                    // else, the pulse is determined by wdata[28:16]
                    //  note, if wdata[28:16]==0, then set pulse width to 1
                    debug_req_duration_q <= ~|debugger_wdata[28:16] ? 1 : debugger_wdata[28:16];
-                 
+
             end else begin
                 // Count down the delay to start
                 if(debugger_start_cnt_q > 0)begin
                     debugger_start_cnt_q <= debugger_start_cnt_q - 1;
                    // At count == 1, then assert the debug_req
-                   if(debugger_start_cnt_q == 1) 
+                   if(debugger_start_cnt_q == 1)
                      debug_req_o <= debug_req_value_q;
                 end
                 // Count down debug_req pulse duration
                 else if(debug_req_duration_q > 0)begin
                    debug_req_duration_q <= debug_req_duration_q - 1;
                    // At count == 1, then de-assert debug_req
-                   if(debug_req_duration_q == 1) 
+                   if(debug_req_duration_q == 1)
                      debug_req_o <= !debug_req_value_q;
-                end               
+                end
             end
         end
     end
-   
+
     // -------------------------------------------------------------
     // show writes if requested
     always_ff @(posedge clk_i, negedge rst_ni) begin: verbose_writes
@@ -674,7 +674,7 @@ module mm_ram
 
     assign instr_gnt_o    = ram_instr_gnt;
     assign data_gnt_o     = ram_data_gnt;
-    
+
     // remap debug code to end of memory
     assign instr_addr_remap =  ( (instr_addr_i >= dm_halt_addr_i) &&
                                (instr_addr_i < (dm_halt_addr_i + (2 ** DBG_ADDR_WIDTH)) ) ) ?
@@ -740,7 +740,7 @@ module mm_ram
 
     .grant_mem_i        ( rnd_stall_data_req     ),
     .grant_core_o       ( rnd_stall_data_gnt     ),
-    
+
     .req_core_i         ( data_req_i             ),
     .req_mem_o          ( rnd_stall_data_req     ),
 
@@ -750,28 +750,28 @@ module mm_ram
     .gnt_stall_i        ( rnd_stall_regs[RND_STALL_DATA_GNT]  )
     );
 
-`ifndef VERILATOR
-    riscv_random_interrupt_generator
-    random_interrupt_generator_i
-    (
-      .rst_ni            ( rst_ni                                       ),
-      .clk_i             ( clk_i                                        ),
-      .irq_i             ( 1'b0                                         ),
-      .irq_id_i          ( '0                                           ),
-      .irq_ack_i         ( irq_ack_i == 1'b1 && irq_id_i == RND_IRQ_ID  ),
-      .irq_ack_o         (                                              ),
-      .irq_o             ( rnd_irq                                      ),
-      .irq_id_o          ( /*disconnected, always generate RND_IRQ_ID*/ ),
-      .irq_mode_i        ( rnd_stall_regs[10]                           ),
-      .irq_min_cycles_i  ( rnd_stall_regs[11]                           ),
-      .irq_max_cycles_i  ( rnd_stall_regs[12]                           ),
-      .irq_min_id_i      ( RND_IRQ_ID                                   ),
-      .irq_max_id_i      ( RND_IRQ_ID                                   ),
-      .irq_act_id_o      (                                              ),
-      .irq_id_we_o       (                                              ),
-      .irq_pc_id_i       ( pc_core_id_i                                 ),
-      .irq_pc_trig_i     ( rnd_stall_regs[13]                           )
-    );
-`endif
+// `ifndef VERILATOR
+//     riscv_random_interrupt_generator
+//     random_interrupt_generator_i
+//     (
+//       .rst_ni            ( rst_ni                                       ),
+//       .clk_i             ( clk_i                                        ),
+//       .irq_i             ( 1'b0                                         ),
+//       .irq_id_i          ( '0                                           ),
+//       .irq_ack_i         ( irq_ack_i == 1'b1 && irq_id_i == RND_IRQ_ID  ),
+//       .irq_ack_o         (                                              ),
+//       .irq_o             ( rnd_irq                                      ),
+//       .irq_id_o          ( /*disconnected, always generate RND_IRQ_ID*/ ),
+//       .irq_mode_i        ( rnd_stall_regs[10]                           ),
+//       .irq_min_cycles_i  ( rnd_stall_regs[11]                           ),
+//       .irq_max_cycles_i  ( rnd_stall_regs[12]                           ),
+//       .irq_min_id_i      ( RND_IRQ_ID                                   ),
+//       .irq_max_id_i      ( RND_IRQ_ID                                   ),
+//       .irq_act_id_o      (                                              ),
+//       .irq_id_we_o       (                                              ),
+//       .irq_pc_id_i       ( pc_core_id_i                                 ),
+//       .irq_pc_trig_i     ( rnd_stall_regs[13]                           )
+//     );
+// `endif
 
 endmodule // ram
