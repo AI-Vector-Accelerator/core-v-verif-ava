@@ -34,11 +34,14 @@ add wave -noupdate -group {Instruction state} /tb_top/cv32e40p_tb_wrapper_i/a_to
 add wave -noupdate -group {Instruction state} /tb_top/cv32e40p_tb_wrapper_i/a_top/vdec0/destination
 add wave -noupdate -group {Instruction state} /tb_top/cv32e40p_tb_wrapper_i/a_top/vdec0/mop
 add wave -noupdate -group {Instruction state} -expand /tb_top/cv32e40p_tb_wrapper_i/a_top/vdec0/reg_apu_operands
-add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vregs
-add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en0
-add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en1
-add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en2
-add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en3
+add wave -noupdate -group {Vector registers} -expand /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vregs
+add wave -noupdate -group {Vector registers} -radix binary /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en0
+add wave -noupdate -group {Vector registers} -radix binary /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en1
+add wave -noupdate -group {Vector registers} -radix binary /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en2
+add wave -noupdate -group {Vector registers} -radix binary /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en3
+add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vs1_addr
+add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vs2_addr
+add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vd_addr
 add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/eff_vsew
 add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a_top/vcsrs0/avl_in
 add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a_top/vcsrs0/vtype_in
@@ -65,9 +68,9 @@ add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_rdata_o
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_rvalid_o
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_gnt_o
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {15330 ns} 0}
+WaveRestoreCursors {{Cursor 1} {109410 ns} 0}
 quietly wave cursor active 1
-configure wave -namecolwidth 392
+configure wave -namecolwidth 425
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
@@ -81,4 +84,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {15192 ns} {15594 ns}
+WaveRestoreZoom {109136 ns} {109560 ns}
