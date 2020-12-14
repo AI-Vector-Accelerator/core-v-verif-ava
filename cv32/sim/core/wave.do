@@ -34,7 +34,7 @@ add wave -noupdate -group {Instruction state} /tb_top/cv32e40p_tb_wrapper_i/a_to
 add wave -noupdate -group {Instruction state} /tb_top/cv32e40p_tb_wrapper_i/a_top/vdec0/destination
 add wave -noupdate -group {Instruction state} /tb_top/cv32e40p_tb_wrapper_i/a_top/vdec0/mop
 add wave -noupdate -group {Instruction state} -expand /tb_top/cv32e40p_tb_wrapper_i/a_top/vdec0/reg_apu_operands
-add wave -noupdate -group {Vector registers} -expand /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vregs
+add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vregs
 add wave -noupdate -group {Vector registers} -radix binary /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en0
 add wave -noupdate -group {Vector registers} -radix binary /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en1
 add wave -noupdate -group {Vector registers} -radix binary /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/wr_en2
@@ -43,6 +43,107 @@ add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top
 add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vs2_addr
 add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vd_addr
 add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/eff_vsew
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/arith_output
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/replicated_scalar
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/op
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/saturate_mode
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/output_mode
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/operand_select
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/widening
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/mul_us
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/reduction_intermediate_reg
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0_out
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1_out
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2_out
+add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3_out
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/out
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/a
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/b
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/c
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/mult_a
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/mult_b
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/mult_wide
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/selected_mult_out
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/add_out
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/add_a
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/add_b
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/addend
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/arith_result
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/macc
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/subtract
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/sign_ext_a
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/sign_ext_b
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/sign_ext_c
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/sat_result
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/sat8_result
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/sat16_result
+add wave -noupdate -group {Arithmetic stage} -group pe0 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe0/sat32_result
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/out
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/a
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/b
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/c
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/mult_a
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/mult_b
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/mult_wide
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/selected_mult_out
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/add_out
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/add_a
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/add_b
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/addend
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/arith_result
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/macc
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/subtract
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/sign_ext_a
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/sign_ext_b
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/sign_ext_c
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/sat_result
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/sat8_result
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/sat16_result
+add wave -noupdate -group {Arithmetic stage} -group pe1 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe1/sat32_result
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/out
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/a
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/b
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/c
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/mult_a
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/mult_b
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/mult_wide
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/selected_mult_out
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/add_out
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/add_a
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/add_b
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/addend
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/arith_result
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/macc
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/subtract
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/sign_ext_a
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/sign_ext_b
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/sign_ext_c
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/sat_result
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/sat8_result
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/sat16_result
+add wave -noupdate -group {Arithmetic stage} -group pe2 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe2/sat32_result
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/out
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/a
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/b
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/c
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/mult_a
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/mult_b
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/mult_wide
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/selected_mult_out
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/add_out
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/add_a
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/add_b
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/addend
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/arith_result
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/macc
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/subtract
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/sign_ext_a
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/sign_ext_b
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/sign_ext_c
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/sat_result
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/sat8_result
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/sat16_result
+add wave -noupdate -group {Arithmetic stage} -group pe3 /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/pe3/sat32_result
 add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a_top/vcsrs0/avl_in
 add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a_top/vcsrs0/vtype_in
 add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a_top/vcsrs0/write
@@ -68,9 +169,9 @@ add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_rdata_o
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_rvalid_o
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_gnt_o
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {109410 ns} 0}
+WaveRestoreCursors {{Cursor 1} {26185 ns} 0}
 quietly wave cursor active 1
-configure wave -namecolwidth 425
+configure wave -namecolwidth 441
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
@@ -84,4 +185,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {109136 ns} {109560 ns}
+WaveRestoreZoom {26007 ns} {26432 ns}
