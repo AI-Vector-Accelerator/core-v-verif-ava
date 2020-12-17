@@ -52,7 +52,7 @@ uint8_t vsetvli_e32_m4 (uint8_t avl)
 void vmv_v_x (int n)
 {
     asm volatile (
-        "vmv.v.x v8, %0"
+        "vmv.v.x v4, %0"
         :
         : "r" (n)
     );
@@ -79,13 +79,13 @@ int main(int argc, char *argv[])
     if (retrieved != 7)
         return EXIT_FAILURE;
 
-    vmv_v_x(7);
+    vmv_v_x(-8);
 
     retrieved2 = vmv_x_s();
 
-    printf("Retrieved value: %d\n", retrieved);
+    printf("Retrieved value: %d\n", retrieved2);
 
-    if (retrieved2 != 7)
+    if (retrieved2 != -8)
         return EXIT_FAILURE;
 
 ////////////////////////////////////////////////////////////
@@ -94,23 +94,23 @@ int main(int argc, char *argv[])
     vsetvli_e16_m4(avl);
 
     asm volatile (
-        "vmv.v.i v4, 14"
+        "vmv.v.i v4, -14"
     );
 
     retrieved = vmv_x_s();
 
     printf("Retrieved value: %d\n", retrieved);
 
-    if (retrieved != 14)
+    if (retrieved != -14)
         return EXIT_FAILURE;
 
-    vmv_v_x(14);
+    vmv_v_x(13);
 
     retrieved2 = vmv_x_s();
 
-    printf("Retrieved value: %d\n", retrieved);
+    printf("Retrieved value: %d\n", retrieved2);
 
-    if (retrieved2 != 14)
+    if (retrieved2 != 13)
         return EXIT_FAILURE;
 
 ////////////////////////////////////////////////////////////
@@ -119,23 +119,23 @@ int main(int argc, char *argv[])
     vsetvli_e32_m4(avl);
 
     asm volatile (
-        "vmv.v.i v4, 4"
+        "vmv.v.i v4, -4"
     );
 
     retrieved = vmv_x_s();
 
     printf("Retrieved value: %d\n", retrieved);
 
-    if (retrieved != 4)
+    if (retrieved != -4)
         return EXIT_FAILURE;
 
-    vmv_v_x(4);
+    vmv_v_x(5);
 
     retrieved2 = vmv_x_s();
 
-    printf("Retrieved value: %d\n", retrieved);
+    printf("Retrieved value: %d\n", retrieved2);
 
-    if (retrieved2 != 4)
+    if (retrieved2 != 5)
         return EXIT_FAILURE;
 
 ////////////////////////////////////////////////////////////
