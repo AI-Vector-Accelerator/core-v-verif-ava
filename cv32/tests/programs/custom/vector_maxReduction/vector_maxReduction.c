@@ -41,14 +41,11 @@ unsigned int max_reduction_e8_m1(){
         "vsetvli t0, %1, e32, m1, d1 \n\t"     	
 	    "vmv.v.x v1, %2	        \n\t"		
         "vmv.v.x v4, %3         \n\t"
-        "vmv.v.x v5, %4       \n\t"
-        "vmv.v.x v6, %5        \n\t"
-        "vmv.v.x v7, %6        \n\t"
         "vsetvli t0, %1, e8, m1\n\t"
         "vredmax.vs v1, v4, v1 \n\t"
         "vmv.x.s %0, v1"
         : "=r" (output) 
-        : "r" (vlen) ,"r" (minimum), "r" (temp_v[0]),"r" (temp_v[1]),"r" (temp_v[2]),"r" (temp_v[3])
+        : "r" (vlen) ,"r" (minimum), "r" (temp_v[0])
     );
 
     if(output != golden_output) {
@@ -83,13 +80,11 @@ unsigned int max_reduction_e8_m2(){
 	    "vmv.v.x v1, %2	        \n\t"		
         "vmv.v.x v4, %3         \n\t"
         "vmv.v.x v5, %4       \n\t"
-        "vmv.v.x v6, %5        \n\t"
-        "vmv.v.x v7, %6        \n\t"
         "vsetvli t0, %1, e8, m2\n\t"
         "vredmax.vs v1, v4, v1 \n\t"
         "vmv.x.s %0, v1"
         : "=r" (output) 
-        : "r" (vlen) ,"r" (minimum), "r" (temp_v[0]),"r" (temp_v[1]),"r" (temp_v[2]),"r" (temp_v[3])
+        : "r" (vlen) ,"r" (minimum), "r" (temp_v[0]),"r" (temp_v[1])
     );
 
     if(output != golden_output) {
@@ -167,14 +162,11 @@ unsigned int max_reduction_e16_m1(){
         "vsetvli t0, %1, e32, m1, d1 \n\t"     	
 	    "vmv.v.x v1, %2	        \n\t"		
         "vmv.v.x v4, %3         \n\t"
-        "vmv.v.x v5, %4       \n\t"
-        "vmv.v.x v6, %5        \n\t"
-        "vmv.v.x v7, %6        \n\t"
         "vsetvli t0, %1, e16, m1\n\t"
         "vredmax.vs v1, v4, v1 \n\t"
         "vmv.x.s %0, v1"
         : "=r" (output) 
-        : "r" (vlen) ,"r" (minimum), "r" (temp_v[0]),"r" (temp_v[1]),"r" (temp_v[2]),"r" (temp_v[3])
+        : "r" (vlen) ,"r" (minimum), "r" (temp_v[0])
     );
 
     if(output != golden_output) {
@@ -209,13 +201,11 @@ unsigned int max_reduction_e16_m2(){
 	    "vmv.v.x v1, %2	        \n\t"		
         "vmv.v.x v4, %3         \n\t"
         "vmv.v.x v5, %4       \n\t"
-        "vmv.v.x v6, %5        \n\t"
-        "vmv.v.x v7, %6        \n\t"
         "vsetvli t0, %1, e16, m2\n\t"
         "vredmax.vs v1, v4, v1 \n\t"
         "vmv.x.s %0, v1"
         : "=r" (output) 
-        : "r" (vlen) ,"r" (minimum), "r" (temp_v[0]),"r" (temp_v[1]),"r" (temp_v[2]),"r" (temp_v[3])
+        : "r" (vlen) ,"r" (minimum), "r" (temp_v[0]),"r" (temp_v[1])
     );
 
     if(output != golden_output) {
@@ -289,14 +279,11 @@ unsigned int max_reduction_e32_m1(){
         "vsetvli t0, %1, e32, m1, d1 \n\t"     	
 	    "vmv.v.x v1, %2	        \n\t"		
         "vmv.v.x v4, %3         \n\t"
-        "vmv.v.x v5, %4       \n\t"
-        "vmv.v.x v6, %5        \n\t"
-        "vmv.v.x v7, %6        \n\t"
         "vsetvli t0, %1, e32, m1\n\t"
         "vredmax.vs v1, v4, v1 \n\t"
         "vmv.x.s %0, v1"
         : "=r" (output) 
-        : "r" (vlen) ,"r" (minimum), "r" (input[0]),"r" (input[1]),"r" (input[2]),"r" (input[3])
+        : "r" (vlen) ,"r" (minimum), "r" (input[0])
     );
 
     if(output != golden_output) {
@@ -327,13 +314,11 @@ unsigned int max_reduction_e32_m2(){
 	    "vmv.v.x v1, %2	        \n\t"		
         "vmv.v.x v4, %3         \n\t"
         "vmv.v.x v5, %4       \n\t"
-        "vmv.v.x v6, %5        \n\t"
-        "vmv.v.x v7, %6        \n\t"
         "vsetvli t0, %1, e32, m2\n\t"
         "vredmax.vs v1, v4, v1 \n\t"
         "vmv.x.s %0, v1"
         : "=r" (output) 
-        : "r" (vlen) ,"r" (minimum), "r" (input[0]),"r" (input[1]),"r" (input[2]),"r" (input[3])
+        : "r" (vlen) ,"r" (minimum), "r" (input[0]),"r" (input[1])
     );
 
     if(output != golden_output) {
@@ -381,7 +366,7 @@ unsigned int max_reduction_e32_m4(){
         return(0);
     }
 }
-
+//----------------------------------------------------------------------
 
 
 
