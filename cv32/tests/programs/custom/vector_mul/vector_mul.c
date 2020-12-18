@@ -600,36 +600,192 @@ int main(int argc, char *argv[])
 
 
     int errors = 0;
-
-    errors += smul_test_e8_m1(64);
-    errors += smul_test_e8_m2(64);
-    errors += smul_test_e8_m4(64);
+    int errorsbef =0;
+    errors += min_test_e8_m1(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += min_test_e8_m2(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += min_test_e8_m4(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
     printf("\n");
-    errors += wmulx_test_e8_m1(64);
-    errors += wmulx_test_e8_m2(64);
-    errors += wmulx_test_e8_m4(64);
-    printf("\n");
-    errors += wmulv_test_e8_m1(64);
-    errors += wmulv_test_e8_m2(64);
-    errors += wmulv_test_e8_m4(64);
+    errors += max_test_e8_m1(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += max_test_e8_m2(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += max_test_e8_m4(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
     printf("\n\n");
-    errors += smul_test_e16_m1(64);
-    errors += smul_test_e16_m2(64);
-    errors += smul_test_e16_m4(64);
+    errors += min_test_e16_m1(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += min_test_e16_m2(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += min_test_e16_m4(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
     printf("\n");
-    errors += wmulv_test_e16_m1(64);
-    errors += wmulv_test_e16_m2(64);
-    errors += wmulv_test_e16_m4(64);
-    printf("\n");
-    errors += wmulx_test_e16_m1(64);
-    errors += wmulx_test_e16_m2(64);
-    errors += wmulx_test_e16_m4(64);
+    errors += max_test_e16_m1(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += max_test_e16_m2(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += max_test_e16_m4(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
     printf("\n\n");
-    errors += smul_test_e32_m1(64);
-    errors += smul_test_e32_m2(64);
-    errors += smul_test_e32_m4(64);
-  
-
+    errors += min_test_e32_m1(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += min_test_e32_m2(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += min_test_e32_m4(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    printf("\n");
+    errors += max_test_e32_m1(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += max_test_e32_m2(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
+    errors += max_test_e32_m4(64);
+    if (errors == errorsbef)
+    {
+       printf("PASS\n"); 
+    }
+    else
+    {
+       printf("FAIL\n");
+    }
+    errorsbef=errors;
 
 
     if(errors > 0)
