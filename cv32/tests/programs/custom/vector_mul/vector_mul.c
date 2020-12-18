@@ -19,9 +19,15 @@ int smul_test_e8_m1(uint8_t vlen)
 
     printf("Test Complete! Output: %d\n", output);
     if(output != -25)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -44,11 +50,17 @@ int smul_test_e8_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
+    
     if(output0 != -25 || output1 != -25)
-        return(1);
+    {
+        printf("Test Complete! FAIL Output: v4: %d\tv5: %d\n", output0, output1);
+       return(1);
+    }
     else
-        return(0);
+    {
+         printf("Test Complete! PASS Output: v4: %d\tv5: %d\n", output0, output1);
+       return(0);
+    }
     
 }
 
@@ -79,9 +91,15 @@ int smul_test_e8_m4(uint8_t vlen)
 
     printf("Test Complete! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
     if(output0 != -25 || output1 != -25 || output2 != -25 || output3 != -25)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
 }
 
 int wmulv_test_e8_m1(uint8_t vlen) 
@@ -102,9 +120,15 @@ int wmulv_test_e8_m1(uint8_t vlen)
 
     printf("Test Complete! Output: %d\n", output);
     if(output !=  -224)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -127,11 +151,17 @@ int wmulv_test_e8_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
+
     if(output0 !=  -224 || output1 !=  -224)
-        return(1);
+    {
+       printf("Test Complete! FAIL Output: v4: %d\tv5: %d\n", output0, output1);
+       return(1);
+    }
     else
-        return(0);
+    {
+        printf("Test Complete! PASS Output: v4: %d\tv5: %d\n", output0, output1);
+       return(0);
+    }
     
 }
 
@@ -162,9 +192,15 @@ int wmulv_test_e8_m4(uint8_t vlen)
 
     printf("Test Complete! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
     if(output0 != -224 || output1 != -224 || output2 != -224 || output3 != -224)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
 }
 
 int wmulx_test_e8_m1(uint8_t vlen) 
@@ -184,9 +220,15 @@ int wmulx_test_e8_m1(uint8_t vlen)
 
     printf("Test Complete! Output: %d\n", output);
     if(output != -160)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -208,11 +250,17 @@ int wmulx_test_e8_m2(uint8_t vlen)
         : "r" (vlen)
     );
 
-    printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
+ 
     if(output0 != -160 || output1 != -160)
-        return(1);
+    {
+       printf("Test Complete! FAIL Output: v4: %d\tv5: %d\n", output0, output1);
+       return(1);
+    }
     else
-        return(0);
+    {
+        printf("Test Complete! PASS Output: v4: %d\tv5: %d\n", output0, output1);
+       return(0);
+    }
     
 }
 
@@ -242,11 +290,13 @@ int wmulx_test_e8_m4(uint8_t vlen)
     
     if(output0 != -160 || output1 != -160 || output2 != -160 || output3 != -160)
     {
+        printf("FAIL\n");
         printf("Test Complete! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
         return(1);
     }
     else
     {
+        printf("PASS\n");
         printf("Test Complete! Output: v12: %d\tv13: %d\tv14: %d\tv15: %d\n", output0, output1, output2, output3);
         return(0);
     }
@@ -271,9 +321,15 @@ int smul_test_e16_m1(uint8_t vlen)
 
     printf("Test Complete! Output: %d\n", output);
     if(output != -25)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -298,9 +354,15 @@ int smul_test_e16_m2(uint8_t vlen)
 
     printf("Test Complete! Output: v4: %d\tv5: %d\n", output0, output1);
     if(output0 != -25 || output1 != -25)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -331,9 +393,15 @@ int smul_test_e16_m4(uint8_t vlen)
 
     printf("Test Complete! Output: v8: %d\tv9: %d\tv10: %d\tv11: %d\n", output0, output1, output2, output3);
     if(output0 != -25 || output1 != -25 || output2 != -25 || output3 != -25)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
 }
 
 
@@ -356,9 +424,15 @@ int wmulv_test_e16_m1(uint8_t vlen)
 
     printf("Test Complete! Output: %ld\n", output);
     if(output !=  -224)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -383,9 +457,15 @@ int wmulv_test_e16_m2(uint8_t vlen)
 
     printf("Test Complete! Output: v4: %ld\tv5: %ld\n", output0, output1);
     if(output0 !=  -224|| output1 !=  -224)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -415,9 +495,15 @@ int wmulv_test_e16_m4(uint8_t vlen)
 
     printf("Test Complete! Output: v8: %ld\tv9: %ld\tv10: %ld\tv11: %ld\n", output0, output1, output2, output3);
     if(output0 !=  -224 || output1 !=  -224 || output2 !=  -224 || output3 != -224)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
 }
 
 
@@ -439,9 +525,15 @@ int wmulx_test_e16_m1(uint8_t vlen)
 
     printf("Test Complete! Output: %ld\n", output);
     if(output != -160)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -465,9 +557,15 @@ int wmulx_test_e16_m2(uint8_t vlen)
 
     printf("Test Complete! Output: v4: %ld\tv5: %ld\n", output0, output1);
     if(output0 != -160 || output1 != -160)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -497,11 +595,13 @@ int wmulx_test_e16_m4(uint8_t vlen)
     
     if(output0 != -160 || output1 !=  -160  || output2 !=  -160  || output3 !=  -160 )
     {
+        printf("FAIL\n");
         printf("Test Complete! Output: v12: %ld\tv13: %ld\tv14: %ld\tv15: %ld\n", output0, output1, output2, output3);
         return(1);
     }
     else
     {
+        printf("PASS\n");
         printf("Test Complete! Output: v12: %ld\tv13: %ld\tv14: %ld\tv15: %ld\n", output0, output1, output2, output3);
         return(0);
     }
@@ -524,9 +624,15 @@ int smul_test_e32_m1(uint8_t vlen)
 
     printf("Test Complete! Output: %ld\n", output);
     if(output != -25)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -552,9 +658,15 @@ int smul_test_e32_m2(uint8_t vlen)
 
     printf("Test Complete! Output: v4: %ld\tv5: %ld\n", output0, output1);
     if(output0 != -25 || output1 != -25)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
     
 }
 
@@ -585,9 +697,16 @@ int smul_test_e32_m4(uint8_t vlen)
 
     printf("Test Complete! Output: v16: %ld\tv17: %ld\tv18: %ld\tv19: %ld\n", output0, output1, output2, output3);
     if(output0 != -25 || output1 != -25 || output2 != -25 || output3 != -25)
-        return(1);
+    {
+       printf("FAIL\n");
+       return(1);
+    }
     else
-        return(0);
+    {
+       printf("PASS\n");
+       return(0);
+    }
+      
 }
 
 
@@ -600,192 +719,36 @@ int main(int argc, char *argv[])
 
 
     int errors = 0;
-    int errorsbef =0;
-    errors += min_test_e8_m1(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += min_test_e8_m2(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += min_test_e8_m4(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
+
+    errors += smul_test_e8_m1(64);
+    errors += smul_test_e8_m2(64);
+    errors += smul_test_e8_m4(64);
     printf("\n");
-    errors += max_test_e8_m1(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += max_test_e8_m2(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += max_test_e8_m4(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
+    errors += wmulx_test_e8_m1(64);
+    errors += wmulx_test_e8_m2(64);
+    errors += wmulx_test_e8_m4(64);
+    printf("\n");
+    errors += wmulv_test_e8_m1(64);
+    errors += wmulv_test_e8_m2(64);
+    errors += wmulv_test_e8_m4(64);
     printf("\n\n");
-    errors += min_test_e16_m1(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += min_test_e16_m2(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += min_test_e16_m4(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
+    errors += smul_test_e16_m1(64);
+    errors += smul_test_e16_m2(64);
+    errors += smul_test_e16_m4(64);
     printf("\n");
-    errors += max_test_e16_m1(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += max_test_e16_m2(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += max_test_e16_m4(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
+    errors += wmulv_test_e16_m1(64);
+    errors += wmulv_test_e16_m2(64);
+    errors += wmulv_test_e16_m4(64);
+    printf("\n");
+    errors += wmulx_test_e16_m1(64);
+    errors += wmulx_test_e16_m2(64);
+    errors += wmulx_test_e16_m4(64);
     printf("\n\n");
-    errors += min_test_e32_m1(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += min_test_e32_m2(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += min_test_e32_m4(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    printf("\n");
-    errors += max_test_e32_m1(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += max_test_e32_m2(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
-    errors += max_test_e32_m4(64);
-    if (errors == errorsbef)
-    {
-       printf("PASS\n"); 
-    }
-    else
-    {
-       printf("FAIL\n");
-    }
-    errorsbef=errors;
+    errors += smul_test_e32_m1(64);
+    errors += smul_test_e32_m2(64);
+    errors += smul_test_e32_m4(64);
+  
+
 
 
     if(errors > 0)
@@ -798,3 +761,4 @@ int main(int argc, char *argv[])
 
     return(EXIT_SUCCESS);
 }
+
