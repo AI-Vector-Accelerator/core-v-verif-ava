@@ -13,9 +13,9 @@ uint8_t vect_vsetvli(uint8_t avl) {
   return vlen_o;
 }
 
-void vect_loadVector32(int N, int32_t* ptr, uint32_t stride) {
+void vect_loadVector32(int N, int8_t* ptr, uint32_t stride) {
     asm volatile (  
-      "vsetvli t0, a0, e32, m4\n\t"
+      "vsetvli t0, a0, e8, m2\n\t"
       "vlse.v v4, (%2), %0\n\t"
       "vlse.v v8, (%1), %0\n\t"
       "vadd.vv v12, v4, v8\n\t"
@@ -35,10 +35,13 @@ int main(int argc, char *argv[])
   printf("\nRunning Test\n");
   // Test vector instruction
 
-  int32_t a[8] = {123, 32, 16, 23, 78, 32, 12, 24};
+  int8_t a[16] = {123, 32, 16, 23,
+                   78, 32, 12, 24, 
+                   64, 35, 74,  3, 
+                    9,  3,  1,  5};
 
   //vect_vsetvli(4);
-  vect_loadVector32(4, a, 8);
+  vect_loadVector32(8, a, 2);
 
   printf("\nTest Complete\n");
   return EXIT_SUCCESS;
