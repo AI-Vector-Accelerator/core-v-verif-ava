@@ -469,7 +469,7 @@ testbench_verilator: $(CV32E40P_PKG) $(NVPE_PKG) $(TBSRC_VERI) $(TBSRC_PKG)
 		--Wno-lint --Wno-UNOPTFLAT \
 		--Wno-MODDUP --top-module \
 		tb_top_verilator $(TBSRC_VERI) \
-		-f $(CV32E40P_MANIFEST) -f $(NVPE_MANIFEST)\
+		-f $(NVPE_MANIFEST) -f $(CV32E40P_MANIFEST) \
 		$(CV32E40P_PKG)/bhv/cv32e40p_core_log.sv \
 		$(TBSRC_CORE)/tb_top_verilator.cpp --Mdir $(VERI_OBJ_DIR) \
 		-CFLAGS "-std=gnu++11 $(VERI_CFLAGS)" \
