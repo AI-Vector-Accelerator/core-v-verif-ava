@@ -455,8 +455,8 @@ xrun-clean-all: xrun-clean
 # We first test if the user wants to to vcd dumping. This hacky part is required
 # because we need to conditionally compile the testbench (-DVCD_TRACE) and pass
 # the --trace flags to the verilator call
-VERI_TRACE="--trace"
-VERI_CFLAGS+="-DVCD_TRACE"
+#VERI_TRACE="--trace"
+#VERI_CFLAGS+="-DVCD_TRACE"
 
 verilate: testbench_verilator
 
