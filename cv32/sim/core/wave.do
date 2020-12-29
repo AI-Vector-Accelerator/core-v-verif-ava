@@ -11,6 +11,7 @@ add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/a_top/vlmul
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/a_top/scalar_operand1
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/a_top/scalar_operand2
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/a_top/immediate_operand
+add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/a_top/vd_data_src
 add wave -noupdate -group {APU interface} /tb_top/cv32e40p_tb_wrapper_i/a_top/apu_req
 add wave -noupdate -group {APU interface} /tb_top/cv32e40p_tb_wrapper_i/a_top/apu_gnt
 add wave -noupdate -group {APU interface} /tb_top/cv32e40p_tb_wrapper_i/a_top/apu_op
@@ -43,6 +44,8 @@ add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top
 add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vs2_addr
 add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vd_addr
 add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/eff_vsew
+add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/write
+add wave -noupdate -group {Vector registers} /tb_top/cv32e40p_tb_wrapper_i/a_top/vreg0/vd_data
 add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/arith_output
 add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/replicated_scalar
 add wave -noupdate -group {Arithmetic stage} /tb_top/cv32e40p_tb_wrapper_i/a_top/arith_stage0/op
@@ -154,6 +157,38 @@ add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a
 add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a_top/vcsrs0/vl_next
 add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a_top/vcsrs0/max_vl
 add wave -noupdate -group {CSR internal signals} /tb_top/cv32e40p_tb_wrapper_i/a_top/vcsrs0/per_reg
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/vs_wdata_o
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/vd_offset
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/ib_select
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/be_gen
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/next_el_pre
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/next_el_addr
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/cycle_addr
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/stride
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/cycle_bytes
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/current_state
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/next_state
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/byte_track
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/byte_track_next
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/cycle_load
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/cycle_addr_inc
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/store_cycles_inc
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/store_cycle_bytes
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/store_cycle_be
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/store_cycles
+add wave -noupdate -group VLSU /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/store_cycles_cnt
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/byte_enable_valid
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/read_data_valid
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/clear_register
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/memory_read_i
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/byte_enable_i
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/byte_select_i
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/wide_vd_o
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/byte_enable_reg
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/temp_reg
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/memory_read_bytes
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/memory_read_packed
+add wave -noupdate -group VLSU -group {Temporary register} /tb_top/cv32e40p_tb_wrapper_i/a_top/vlsu0/tr/packed_set
 add wave -noupdate -divider RAM
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/instr_req_i
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/instr_addr_i
@@ -169,7 +204,7 @@ add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_rdata_o
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_rvalid_o
 add wave -noupdate /tb_top/cv32e40p_tb_wrapper_i/ram_i/data_gnt_o
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {26185 ns} 0}
+WaveRestoreCursors {{Cursor 1} {19070 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 441
 configure wave -valuecolwidth 100
@@ -185,4 +220,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {26007 ns} {26432 ns}
+WaveRestoreZoom {18855 ns} {19280 ns}
