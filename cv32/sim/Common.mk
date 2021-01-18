@@ -70,12 +70,12 @@ BANNER=*************************************************************************
 
 export SHELL = /bin/bash
 
-CV32E40P_REPO   ?= git@git.soton.ac.uk:gdp42/cv32e40n.git
+CV32E40P_REPO   ?= https://github.com/AI-Vector-Accelerator/cv32e40p.git
 CV32E40P_BRANCH ?= master
 CV32E40P_HASH   ?=
 
-NVPE_REPO       ?= git@git.soton.ac.uk:gdp42/open-ai-gdp.git
-NVPE_BRANCH     ?= master
+AVA_REPO       ?= https://github.com/AI-Vector-Accelerator/ava-core.git
+AVA_BRANCH     ?= master
 
 RISCVDV_REPO    ?= https://github.com/google/riscv-dv
 RISCVDV_BRANCH  ?= master
@@ -93,14 +93,14 @@ else
   TMP = git clone -b $(CV32E40P_BRANCH) --single-branch $(CV32E40P_REPO) --recurse $(CV32E40P_PKG)
 endif
 
-ifeq ($(NVPE_BRANCH), master)
-  TMP_NVPE = git clone $(NVPE_REPO) --recurse $(NVPE_PKG)
+ifeq ($(AVA_BRANCH), master)
+  TMP_AVA = git clone $(AVA_REPO) --recurse $(AVA_PKG)
 else
-  TMP_NVPE = git clone -b $(NVPE_BRANCH) --single-branch $(NVPE_REPO) --recurse $(NVPE_PKG)
+  TMP_AVA = git clone -b $(AVA_BRANCH) --single-branch $(AVA_REPO) --recurse $(AVA_PKG)
 endif
 
 CLONE_CV32E40P_CMD = $(TMP)
-CLONE_NVPE_CMD = $(TMP_NVPE)
+CLONE_AVA_CMD = $(TMP_AVA)
 
 # RTL repo vars end
 
@@ -165,7 +165,7 @@ COREV_MARCH         ?= corev
 PULP_SW_TOOLCHAIN   ?= /opt/pulp
 PULP_MARCH          ?= unknown
 
-CV_SW_TOOLCHAIN  ?= /opt/riscv-rvv
+CV_SW_TOOLCHAIN  ?= /opt/riscv
 CV_SW_MARCH      ?= unknown
 RISCV            ?= $(CV_SW_TOOLCHAIN)
 RISCV_PREFIX     ?= riscv32-$(CV_SW_MARCH)-elf-

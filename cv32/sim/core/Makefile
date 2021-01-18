@@ -179,15 +179,15 @@ export DESIGN_RTL_DIR = $(CV32E40P_PKG)/rtl
 # Default "custom test-program"
 CUSTOM_PROG  ?= requested_csr_por
 
-NVPE_PKG             := $(PROJ_ROOT_DIR)/core-v-cores/open-ai-gdp
-NVPE_RTLSRC_INCDIR   := $(NVPE_PKG)/rtl/accelerator_pkg.sv
-NVPE_RTLSRC          := $(wildcard $(NVPE_PKG)/rtl/*.sv))
-NVPE_MANIFEST        := $(NVPE_PKG)/rtl/accelerator_manifest.flist
-export NVPE_RTL_DIR = $(NVPE_PKG)/rtl
+AVA_PKG             := $(PROJ_ROOT_DIR)/core-v-cores/ava-core
+AVA_RTLSRC_INCDIR   := $(AVA_PKG)/rtl/accelerator_pkg.sv
+AVA_RTLSRC          := $(wildcard $(AVA_PKG)/rtl/*.sv))
+AVA_MANIFEST        := $(AVA_PKG)/rtl/accelerator_manifest.flist
+export AVA_RTL_DIR = $(AVA_PKG)/rtl
 
 # Shorthand rules for convience
 cv32e40p_pkg: $(CV32E40P_PKG)
-nvpe_pkg: $(NVPE_PKG)
+ava_pkg: $(AVA_PKG)
 
 tbsrc_pkg: $(TBSRC_PKG)
 
@@ -311,12 +311,12 @@ dsim-clean: tc-clean
 	touch .lib-rtl
 
 
-.build-rtl: .lib-rtl $(CV32E40P_PKG) $(TBSRC_PKG) $(TBSRC) $(NVPE_PKG)
+.build-rtl: .lib-rtl $(CV32E40P_PKG) $(TBSRC_PKG) $(TBSRC) $(AVA_PKG)
 	$(VLOG) \
 		-work $(VWORK) \
 		$(VLOG_FLAGS) \
 		-f $(CV32E40P_MANIFEST) \
-		-f $(NVPE_MANIFEST) \
+		-f $(AVA_MANIFEST) \
 		$(TBSRC_PKG) $(TBSRC)
 
 
@@ -463,13 +463,13 @@ verilate: testbench_verilator
 sanity-veri-run:
 	make custom CUSTOM_PROG=hello-world
 
-testbench_verilator: $(CV32E40P_PKG) $(NVPE_PKG) $(TBSRC_VERI) $(TBSRC_PKG)
+testbench_verilator: $(CV32E40P_PKG) $(AVA_PKG) $(TBSRC_VERI) $(TBSRC_PKG)
 	$(VERILATOR) --cc --sv --exe \
 		$(VERI_TRACE) \
 		--Wno-lint --Wno-UNOPTFLAT \
 		--Wno-MODDUP --top-module \
 		tb_top_verilator $(TBSRC_VERI) \
-		-f $(NVPE_MANIFEST) -f $(CV32E40P_MANIFEST) \
+		-f $(AVA_MANIFEST) -f $(CV32E40P_MANIFEST) \
 		$(CV32E40P_PKG)/bhv/cv32e40p_core_log.sv \
 		$(TBSRC_CORE)/tb_top_verilator.cpp --Mdir $(VERI_OBJ_DIR) \
 		-CFLAGS "-std=gnu++11 $(VERI_CFLAGS)" \
@@ -682,13 +682,13 @@ $(CV32E40P_PKG):
 	$(CLONE_FPNEW_CMD)
 
 ###############################################################################
-# NVPE RTL dependencies
+# AVA RTL dependencies
 
-clone_nvpe_rtl:
-	$(CLONE_NVPE_CMD)
+clone_ava_rtl:
+	$(CLONE_AVA_CMD)
 
-$(NVPE_PKG):
-	$(CLONE_NVPE_CMD)
+$(AVA_PKG):
+	$(CLONE_AVA_CMD)
 
 ###############################################################################
 # general targets
