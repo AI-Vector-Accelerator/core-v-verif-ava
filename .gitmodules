@@ -1,0 +1,6 @@
+[submodule "core-v-cores/ava-core"]
+	path = core-v-cores/ava-core
+	url = https://github.com/AI-Vector-Accelerator/ava-core.git
+[submodule "core-v-cores/cv32e40p"]
+	path = core-v-cores/cv32e40p
+	url = https://github.com/AI-Vector-Accelerator/cv32e40p.git
